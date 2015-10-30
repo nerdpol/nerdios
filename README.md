@@ -1,0 +1,2 @@
+# nerdios
+Qt Jabber client
