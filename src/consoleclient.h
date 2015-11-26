@@ -19,7 +19,6 @@ public:
     void prolog();
     void help();
     void connect(const QString &jid, const QString &password);
-    void printRoster();
     void sendMessage(const QString recipient, const QString message);
     void exit();
     void disconnect();
@@ -29,7 +28,7 @@ signals:
 
 public slots:
     void messageReceived(const QXmppMessage& message);
-    //void rosterReceived();
+    void printRoster();
     void connected();
     void disconnected();
     void readInput();
@@ -37,7 +36,6 @@ public slots:
 protected:
     QTextStream out;
     QXmppClient xmppclient;
-    QStringList contacts;
     QSocketNotifier notifier;
 };
 
