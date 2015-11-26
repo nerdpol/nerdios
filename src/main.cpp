@@ -18,10 +18,7 @@ int main(int argc, char *argv[])
     */
 
     QCoreApplication app(argc, argv);
-
     ConsoleClient client;
     client.prolog();
-    client.connect();
-
     return app.exec();
 }

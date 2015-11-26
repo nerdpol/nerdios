@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QTextStream>
+#include <QSocketNotifier>
 
 #include "QXmppClient.h"
 #include "QXmppMessage.h"
@@ -16,7 +17,7 @@ public:
     explicit ConsoleClient(QObject *parent = 0);
     void cleanScreen();
     void prolog();
-    void connect();
+    void connect(const QString &jid, const QString &password);
     void printRoster();
     void sendMessage(const QString recipient, const QString message);
     void exit();
@@ -27,11 +28,16 @@ signals:
 
 public slots:
     void messageReceived(const QXmppMessage& message);
+    //void rosterReceived();
+    void connected();
+    void disconnected();
+    void readInput();
 
 protected:
-    QTextStream in;
     QTextStream out;
-    QXmppClient *xmppclient;
+    QXmppClient xmppclient;
+    QStringList contacts;
+    QSocketNotifier notifier;
 };
 
 #endif // CONSOLECLIENT_H
