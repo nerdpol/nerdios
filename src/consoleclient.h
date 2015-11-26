@@ -17,6 +17,7 @@ public:
     explicit ConsoleClient(QObject *parent = 0);
     void cleanScreen();
     void prolog();
+    void help();
     void connect(const QString &jid, const QString &password);
     void printRoster();
     void sendMessage(const QString recipient, const QString message);
