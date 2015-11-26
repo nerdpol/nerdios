@@ -95,7 +95,19 @@ void ConsoleClient::readInput()
         disconnect();
     } else if (args[0] == "exit") {
         exit();
-
+    } else if (args[0] == "msg") {
+        args.removeFirst();
+        QString recipient = args[0];
+        args.removeFirst();
+        sendMessage(recipient, args.join(" "));
+    } else if (args[0] == "status") {
+        if (args[1] == "available") {
+            xmppclient.setClientPresence(QXmppPresence::Available);
+        } else if (args[1] == "away") {
+            QXmppPresence p;
+            p.setAvailableStatusType(QXmppPresence::Away);
+            xmppclient.setClientPresence(p);
+        }
     } else {
         help();
     }
