@@ -1,5 +1,7 @@
 TEMPLATE = app
 
+TARGET = nerdios
+
 QT += qml quick
 CONFIG += c++11
 

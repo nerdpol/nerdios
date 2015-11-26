@@ -9,28 +9,80 @@ ApplicationWindow {
     width: 490
     height: 980
 
+    menuBar: MenuBar {
+            Menu {
+                title: "File"
+                MenuItem { text: "Open..." }
+                MenuItem { text: "Close" }
+            }
+
+            Menu {
+                title: "Edit"
+                MenuItem { text: "Cut" }
+                MenuItem { text: "Copy" }
+                MenuItem { text: "Paste" }
+            }
+        }
+
     SplitView {
         anchors.fill: parent
         orientation: Qt.Horizontal
 
-        Rectangle {
-            width: 200
-            Layout.minimumWidth: 200
-            Layout.maximumWidth: 400
-            color: "lightblue"
-            Text {
-                text: "Contacts"
-                anchors.centerIn: parent
+        ColumnLayout {
+            id: left
+            width: parent.width / 6
+            Layout.minimumWidth: parent.width / 6
+            Layout.maximumWidth: parent.width / 3
+            TextField {
+                id: searchField
+                Layout.fillWidth: true
+            }
+
+            Rectangle {
+                id: roster
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Text {
+                    text: "roster"
+                }
+            }
+
+            Rectangle {
+                id: clientInfo
+                Layout.fillWidth: true
+                height: 50
+                Text {
+                    text: "client info"
+                }
             }
         }
-        Rectangle {
-            id: centerItem
-            Layout.minimumWidth: 400
-            Layout.fillWidth: true
-            color: "lightgray"
-            Text {
-                text: "Message"
-                anchors.centerIn: parent
+        ColumnLayout {
+            id: right
+            Rectangle {
+                id: contactInfo
+                Layout.fillWidth: true
+                height: 50
+                Text {
+                    text: "contac info"
+                }
+            }
+
+            Rectangle {
+                id: messageBox
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Text {
+                    text: "messages"
+                }
+            }
+
+            TextField {
+                id: messageField
+                Layout.fillWidth: true
+                anchors.bottom: parent.bottom
+                Keys.onReturnPressed: {
+                    messageField.text = ""
+                }
             }
         }
     }
