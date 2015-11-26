@@ -1,7 +1,10 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QtQml>
+#include <QXmppClient.h>
 
 #include "consoleclient.h"
+#include "nerdioscore.h"
 
 int main(int argc, char *argv[])
 {
@@ -14,6 +17,9 @@ int main(int argc, char *argv[])
     QGuiApplication::setOrganizationDomain("nerdpol.io");
     QGuiApplication::setApplicationName("nerdios");
 
+    qmlRegisterType<NerdiosCore>("nerdioscore", 1, 0, "NerdiosCore");
+    qmlRegisterType<QXmppClient>("qxmppclient", 1, 0, "QXmppClient");
+    //qmlRegisterType<QXmppClient::State>("qxmppclientstate", 1, 0, "QXmppClientState");
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     */
 

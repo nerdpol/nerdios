@@ -2,12 +2,19 @@ import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
 
+import nerdioscore 1.0
 
 ApplicationWindow {
     id: root
     visible: true
     width: 490
     height: 980
+
+    NerdiosCore {
+        id: nerdioscore
+        property string jid: "test@example.io"
+        property string password: "password"
+    }
 
     menuBar: MenuBar {
             Menu {
@@ -50,9 +57,19 @@ ApplicationWindow {
             Rectangle {
                 id: clientInfo
                 Layout.fillWidth: true
-                height: 50
-                Text {
-                    text: "client info"
+                height: 100
+                ColumnLayout {
+                    Text {
+                        text: nerdioscore.jid
+                    }
+                    Text {
+                        text: nerdioscore.xmppClient.state
+                    }
+                    Button {
+                        id: actionButton
+                        text: "Connect"
+                        onClicked: nerdioscore.connect()
+                    }
                 }
             }
         }
@@ -63,7 +80,7 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 height: 50
                 Text {
-                    text: "contac info"
+                    text: "contact info"
                 }
             }
 
@@ -86,4 +103,10 @@ ApplicationWindow {
             }
         }
     }
+    /*Connections {
+        target: nerdioscore.xmppClient
+        onConnected: {
+            clientInfo.actionButton.text = "Disconnect"
+        }
+    }*/
 }

@@ -9,7 +9,8 @@ SUBDIRS += src \
            3rdparty
 
 SOURCES += main.cpp \
-    consoleclient.cpp
+    consoleclient.cpp \
+    nerdioscore.cpp
 
 RESOURCES += qml.qrc
 
@@ -23,7 +24,8 @@ QML_IMPORT_PATH =
 include(deployment.pri)
 
 HEADERS += \
-    consoleclient.h
+    consoleclient.h \
+    nerdioscore.h
 
 CONFIG(debug, debug|release) {
         LIBS += -L../3rdparty/qxmpp/src -lqxmpp_d
