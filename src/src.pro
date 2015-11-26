@@ -23,4 +23,8 @@ include(deployment.pri)
 HEADERS += \
     consoleclient.h
 
-LIBS += -L $$PWD/../3rdparty/qxmpp/src -lqxmpp
+CONFIG(debug, debug|release) {
+        LIBS += -L../3rdparty/qxmpp/src -lqxmpp_d
+} else {
+        LIBS += -L../3rdparty/qxmpp/src -lqxmpp
+}

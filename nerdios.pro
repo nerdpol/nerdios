@@ -10,3 +10,5 @@ QML_IMPORT_PATH =
 
 SUBDIRS += src \
            3rdparty/qxmpp
+
+src.depends = 3rdparty/qxmpp
