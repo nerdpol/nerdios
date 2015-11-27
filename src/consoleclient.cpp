@@ -8,7 +8,7 @@ ConsoleClient::ConsoleClient(QObject *parent)
     , notifier(0, QSocketNotifier::Read)
 {
     xmppclient.logger()->setLoggingType(QXmppLogger::StdoutLogging);
-    QObject::connect(&notifier, SIGNAL(activated(int)), this, SLOT(readInput()));
+    QObject::connect(&this->notifier, SIGNAL(activated(int)), this, SLOT(readInput()));
     QObject::connect(&this->xmppclient, SIGNAL(connected()), this, SLOT(connected()));
     QObject::connect(&this->xmppclient, SIGNAL(disconnected()), this, SLOT(disconnected()));
     QObject::connect(&this->xmppclient, SIGNAL(messageReceived(QXmppMessage)), this, SLOT(messageReceived(QXmppMessage)));

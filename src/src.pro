@@ -2,7 +2,7 @@ TEMPLATE = app
 
 TARGET = nerdios
 
-QT += qml quick
+QT += qml quick widgets
 CONFIG += c++11
 
 SUBDIRS += src \
@@ -10,7 +10,8 @@ SUBDIRS += src \
 
 SOURCES += main.cpp \
     consoleclient.cpp \
-    nerdioscore.cpp
+    nerdioscore.cpp \
+    qxmppmessageqml.cpp
 
 RESOURCES += qml.qrc
 
@@ -25,7 +26,8 @@ include(deployment.pri)
 
 HEADERS += \
     consoleclient.h \
-    nerdioscore.h
+    nerdioscore.h \
+    qxmppmessageqml.h
 
 CONFIG(debug, debug|release) {
         LIBS += -L../3rdparty/qxmpp/src -lqxmpp_d

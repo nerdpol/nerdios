@@ -5,6 +5,8 @@
 
 #include "consoleclient.h"
 #include "nerdioscore.h"
+#include "qxmppmessageqml.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -18,6 +20,7 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<NerdiosCore>("nerdioscore", 1, 0, "NerdiosCore");
     qmlRegisterType<QXmppClient>("qxmppclient", 1, 0, "QXmppClient");
+    qmlRegisterType<QXMPPMessageQML>("qxmmpmessage", 1, 0, "QXMPPMessageQML");
     //qmlRegisterType<QXmppClient::State>("qxmppclientstate", 1, 0, "QXmppClientState");
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
