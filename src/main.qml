@@ -15,13 +15,26 @@ ApplicationWindow {
         id: nerdioscore
         jid: "test@example.io"
         password: "password"
+
+        onMessageReceived: {
+            messageBox.text += (message.from + ": " + message.body + "\n")
+        }
     }
 
     menuBar: MenuBar {
             Menu {
                 title: "File"
                 MenuItem { text: "Open..." }
-                MenuItem { text: "Close" }
+                MenuItem {
+                    text: "about"
+                }
+                MenuItem {
+                    text: "config"
+                }
+                MenuItem {
+                    text: "Quit"
+                    onTriggered: Qt.quit()
+                }
             }
 
             Menu {
@@ -98,6 +111,7 @@ ApplicationWindow {
                 anchors.bottom: parent.bottom
                 Keys.onReturnPressed: {
                     nerdioscore.sendMessage("", messageField.text)
+                    messageBox.text += (nerdioscore.jid + ": " + messageField.text + "\n")
                     messageField.text = ""
                 }
             }
@@ -111,13 +125,6 @@ ApplicationWindow {
         }
         onDisconnected: {
             actionButton.text = "Connect"
-        }
-    }
-
-    Connections {
-        target: nerdioscore
-        onMessageReceived: {
-            messageBox.text += (message.from + ": " + message.body + "\n")
         }
     }
 }

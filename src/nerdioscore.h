@@ -50,7 +50,6 @@ protected:
     QString m_jid;
     QString m_password;
     QSystemTrayIcon* m_trayIcon;
-    QMenu* m_trayIconMenu;
 
 };
 

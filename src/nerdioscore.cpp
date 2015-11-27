@@ -5,8 +5,7 @@
 NerdiosCore::NerdiosCore(QObject *parent)
     : QObject(parent)
     , m_xmppClient(new QXmppClient(this))
-    , m_trayIcon(0)
-    , m_trayIconMenu(0)
+    , m_trayIcon(new QSystemTrayIcon(this))
 {
     m_xmppClient->logger()->setLoggingType(QXmppLogger::StdoutLogging);
     QObject::connect(&this->m_xmppClient->rosterManager(), SIGNAL(rosterReceived()), this, SLOT(onRosterChanged()));
@@ -85,4 +84,5 @@ void NerdiosCore::onMessageReceived(const QXmppMessage &message)
     //QXMPPMessageQML messageQML(message);
     QXMPPMessageQML *messageQML = new QXMPPMessageQML(message, this);
     emit messageReceived(messageQML);
+    m_trayIcon->showMessage(message.from(), message.body());
 }
