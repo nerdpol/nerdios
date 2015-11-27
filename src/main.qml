@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.1
 
 import nerdioscore 1.0
 
+
 ApplicationWindow {
     id: root
     visible: true
@@ -40,18 +41,19 @@ ApplicationWindow {
             width: parent.width / 6
             Layout.minimumWidth: parent.width / 6
             Layout.maximumWidth: parent.width / 3
+
             TextField {
                 id: searchField
                 Layout.fillWidth: true
             }
 
-            Rectangle {
+            ListView {
                 id: roster
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                Text {
-                    text: "roster"
-                }
+
+                model: nerdioscore.roster
+                delegate: RosterContactModel {}
             }
 
             Rectangle {
@@ -84,13 +86,10 @@ ApplicationWindow {
                 }
             }
 
-            Rectangle {
+            TextArea {
                 id: messageBox
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                Text {
-                    text: "messages"
-                }
             }
 
             TextField {
@@ -98,6 +97,8 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 anchors.bottom: parent.bottom
                 Keys.onReturnPressed: {
+                    nerdioscore.sendMessage("elnappo@nerdpol.io", messageField.text)
+                    messageBox.text += (nerdioscore.jid + ": " + messageField.text)
                     messageField.text = ""
                 }
             }
