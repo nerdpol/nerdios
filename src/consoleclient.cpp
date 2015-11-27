@@ -13,6 +13,7 @@ ConsoleClient::ConsoleClient(QObject *parent)
     QObject::connect(&this->xmppclient, SIGNAL(disconnected()), this, SLOT(disconnected()));
     QObject::connect(&this->xmppclient, SIGNAL(messageReceived(QXmppMessage)), this, SLOT(messageReceived(QXmppMessage)));
     QObject::connect(&this->xmppclient.rosterManager(), SIGNAL(rosterReceived()), this, SLOT(printRoster()));
+    QObject::connect(this, SIGNAL(error(QString)), this, SLOT(printErrorMessage(QString)));
 }
 
 /**
@@ -56,6 +57,11 @@ void ConsoleClient::printRoster()
 
 void ConsoleClient::sendMessage(const QString recipient, const QString message)
 {
+    if (!xmppclient.isConnected()) {
+        emit error("not connected");
+        return;
+    }
+
     xmppclient.sendMessage(recipient, message);
     out << "<< " << recipient << ": " << message << endl << flush;
 }
@@ -111,6 +117,11 @@ void ConsoleClient::readInput()
     } else {
         help();
     }
+}
+
+void ConsoleClient::printErrorMessage(const QString &msg)
+{
+    out << msg << endl << flush;
 }
 
 void ConsoleClient::messageReceived(const QXmppMessage &message)

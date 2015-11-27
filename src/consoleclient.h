@@ -25,6 +25,7 @@ public:
     void epilog();
 
 signals:
+    void error(const QString &msg);
 
 public slots:
     void messageReceived(const QXmppMessage& message);
@@ -32,6 +33,7 @@ public slots:
     void connected();
     void disconnected();
     void readInput();
+    void printErrorMessage(const QString &msg);
 
 protected:
     QTextStream out;
