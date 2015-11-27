@@ -8,7 +8,6 @@
 
 int main(int argc, char *argv[])
 {
-    /*
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
@@ -21,10 +20,11 @@ int main(int argc, char *argv[])
     qmlRegisterType<QXmppClient>("qxmppclient", 1, 0, "QXmppClient");
     //qmlRegisterType<QXmppClient::State>("qxmppclientstate", 1, 0, "QXmppClientState");
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-    */
 
+    /*
     QCoreApplication app(argc, argv);
     ConsoleClient client;
     client.prolog();
+    */
     return app.exec();
 }
