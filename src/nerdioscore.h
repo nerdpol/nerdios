@@ -36,7 +36,7 @@ signals:
     void jidChanged(const QString jid);
     void passwordChanged(const QString passwird);
     void rosterChanged();
-    void messageReceived(const QXMPPMessageQML* message);
+    void messageReceived(QXMPPMessageQML* message);
 
 public slots:
     void onRosterChanged();

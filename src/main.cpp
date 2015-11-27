@@ -19,9 +19,9 @@ int main(int argc, char *argv[])
     QGuiApplication::setApplicationName("nerdios");
 
     qmlRegisterType<NerdiosCore>("nerdioscore", 1, 0, "NerdiosCore");
-    qmlRegisterType<QXmppClient>("qxmppclient", 1, 0, "QXmppClient");
-    qmlRegisterType<QXMPPMessageQML>("qxmmpmessage", 1, 0, "QXMPPMessageQML");
-    //qmlRegisterType<QXmppClient::State>("qxmppclientstate", 1, 0, "QXmppClientState");
+    qmlRegisterType<QXmppClient>("nerdioscore", 1, 0, "QXmppClient");
+    qmlRegisterType<QXMPPMessageQML>("nerdioscore", 1, 0, "QXMPPMessageQML");
+    //qmlRegisterType<QXmppClient::State>("nerdioscore", 1, 0, "QXmppClientState");
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     /*

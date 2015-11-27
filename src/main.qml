@@ -3,8 +3,6 @@ import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
 
 import nerdioscore 1.0
-import qxmppclient 1.0
-import qxmmpmessage 1.0
 
 
 ApplicationWindow {
@@ -55,7 +53,7 @@ ApplicationWindow {
                 Layout.fillHeight: true
 
                 model: nerdioscore.roster
-                delegate: RosterContactModel {}
+                delegate: RosterContactDelegate { }
             }
 
             Rectangle {
@@ -100,7 +98,6 @@ ApplicationWindow {
                 anchors.bottom: parent.bottom
                 Keys.onReturnPressed: {
                     nerdioscore.sendMessage("", messageField.text)
-                    messageBox.text += (nerdioscore.jid + ": " + messageField.text + "\n")
                     messageField.text = ""
                 }
             }
@@ -120,8 +117,7 @@ ApplicationWindow {
     Connections {
         target: nerdioscore
         onMessageReceived: {
-            console.log(message)
-            messageBox.text += (message.receiptId + ": " + message.body + "\n")
+            messageBox.text += (message.from + ": " + message.body + "\n")
         }
     }
 }

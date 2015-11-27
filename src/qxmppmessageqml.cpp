@@ -18,7 +18,7 @@ QString QXMPPMessageQML::body() const
     return m_qxmppMessage.body();
 }
 
-QString QXMPPMessageQML::receiptId() const
+QString QXMPPMessageQML::from() const
 {
-    return m_qxmppMessage.receiptId();
+    return m_qxmppMessage.from();
 }

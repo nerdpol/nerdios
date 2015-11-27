@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>RosterContactModel.qml</file>
+        <file>RosterContactDelegate.qml</file>
         <file>AboutDialog.qml</file>
         <file>SettingsDialog.qml</file>
     </qresource>
