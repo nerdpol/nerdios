@@ -1,10 +1,16 @@
 #include "nerdioscore.h"
+#include <QXmppRosterManager.h>
+#include <QXmppMessage.h>
 
 NerdiosCore::NerdiosCore(QObject *parent)
     : QObject(parent)
-    , m_xmppClient(new QXmppClient)
+    , m_xmppClient(new QXmppClient(this))
+    , m_trayIcon(0)
+    , m_trayIconMenu(0)
 {
     m_xmppClient->logger()->setLoggingType(QXmppLogger::StdoutLogging);
+    QObject::connect(&this->m_xmppClient->rosterManager(), SIGNAL(rosterReceived()), this, SLOT(onRosterChanged()));
+    QObject::connect(this->m_xmppClient, SIGNAL(messageReceived(QXmppMessage)), this, SLOT(onMessageReceived(QXmppMessage)));
 }
 
 void NerdiosCore::setJID(QString jid)
@@ -38,6 +44,11 @@ QXmppClient *NerdiosCore::xmppClient() const
     return m_xmppClient;
 }
 
+QStringList NerdiosCore::roster() const
+{
+    return m_xmppClient->rosterManager().getRosterBareJids();
+}
+
 void NerdiosCore::connect()
 {
     m_xmppClient->connectToServer(m_jid, m_password);
@@ -48,4 +59,30 @@ void NerdiosCore::disconnect()
     if (m_xmppClient->isConnected()) {
         m_xmppClient->disconnectFromServer();
     }
+}
+
+void NerdiosCore::sendMessage(const QString jid, const QString message)
+{
+    m_xmppClient->sendMessage(jid, message);
+}
+
+void NerdiosCore::onRosterChanged()
+{
+    emit rosterChanged();
+}
+
+void NerdiosCore::onConnected()
+{
+    QObject::connect(&this->m_xmppClient->rosterManager(), SIGNAL(presenceChanged()), this, SLOT(onRosterChanged()));
+    QObject::connect(&this->m_xmppClient->rosterManager(), SIGNAL(subscriptionReceived()), this, SLOT(onRosterChanged()));
+    QObject::connect(&this->m_xmppClient->rosterManager(), SIGNAL(itemAdded ()), this, SLOT(onRosterChanged()));
+    QObject::connect(&this->m_xmppClient->rosterManager(), SIGNAL(itemChanged()), this, SLOT(onRosterChanged()));
+    QObject::connect(&this->m_xmppClient->rosterManager(), SIGNAL(itemRemoved ()), this, SLOT(onRosterChanged()));
+}
+
+void NerdiosCore::onMessageReceived(const QXmppMessage &message)
+{
+    //QXMPPMessageQML messageQML(message);
+    QXMPPMessageQML *messageQML = new QXMPPMessageQML(message, this);
+    emit messageReceived(messageQML);
 }

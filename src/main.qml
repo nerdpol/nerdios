@@ -3,6 +3,8 @@ import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
 
 import nerdioscore 1.0
+import qxmppclient 1.0
+import qxmmpmessage 1.0
 
 
 ApplicationWindow {
@@ -13,8 +15,8 @@ ApplicationWindow {
 
     NerdiosCore {
         id: nerdioscore
-        jid: "test@nerdpol.io"
-        password: "pommes15"
+        jid: "test@example.io"
+        password: "password"
     }
 
     menuBar: MenuBar {
@@ -97,8 +99,8 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 anchors.bottom: parent.bottom
                 Keys.onReturnPressed: {
-                    nerdioscore.sendMessage("elnappo@nerdpol.io", messageField.text)
-                    messageBox.text += (nerdioscore.jid + ": " + messageField.text)
+                    nerdioscore.sendMessage("", messageField.text)
+                    messageBox.text += (nerdioscore.jid + ": " + messageField.text + "\n")
                     messageField.text = ""
                 }
             }
@@ -108,7 +110,18 @@ ApplicationWindow {
     Connections {
         target: nerdioscore.xmppClient
         onConnected: {
-            clientInfo.actionButton.text = "Disconnect"
+            actionButton.text = "Disconnect"
+        }
+        onDisconnected: {
+            actionButton.text = "Connect"
+        }
+    }
+
+    Connections {
+        target: nerdioscore
+        onMessageReceived: {
+            console.log(message)
+            messageBox.text += (message.receiptId + ": " + message.body + "\n")
         }
     }
 }
