@@ -1,8 +1,10 @@
 #include "nerdioscore.h"
 
-NerdiosCore::NerdiosCore(QObject *parent) : QObject(parent)
+NerdiosCore::NerdiosCore(QObject *parent)
+    : QObject(parent)
+    , m_xmppClient(new QXmppClient)
 {
-
+    m_xmppClient->logger()->setLoggingType(QXmppLogger::StdoutLogging);
 }
 
 void NerdiosCore::setJID(QString jid)

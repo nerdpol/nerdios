@@ -12,8 +12,8 @@ ApplicationWindow {
 
     NerdiosCore {
         id: nerdioscore
-        property string jid: "test@example.io"
-        property string password: "password"
+        jid: "test@nerdpol.io"
+        password: "pommes15"
     }
 
     menuBar: MenuBar {
@@ -103,10 +103,11 @@ ApplicationWindow {
             }
         }
     }
-    /*Connections {
+
+    Connections {
         target: nerdioscore.xmppClient
         onConnected: {
             clientInfo.actionButton.text = "Disconnect"
         }
-    }*/
+    }
 }
