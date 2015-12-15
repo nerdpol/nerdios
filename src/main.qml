@@ -1,6 +1,7 @@
 import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
+import QtQuick.Dialogs 1.2
 
 import nerdioscore 1.0
 
@@ -19,6 +20,25 @@ ApplicationWindow {
         onMessageReceived: {
             messageBox.text += (message.from + ": " + message.body + "\n")
         }
+    }
+
+    Dialog {
+        id: addContactDialog
+        title: "Add a contact"
+        standardButtons: StandardButton.Ok | StandardButton.Cancel
+            TextField {
+                id: jidField
+                text: "jid"
+            }
+        onAccepted: {
+            console.log(jidField.text)
+            nerdioscore.addContact(jidField.text)
+        }
+    }
+
+    Action {
+        id: addContact
+        onTriggered: addContactDialog.open()
     }
 
     menuBar: MenuBar {
@@ -46,7 +66,10 @@ ApplicationWindow {
 
             Menu {
                 title: "Contacts"
-                MenuItem { text: "Add contact" }
+                MenuItem {
+                    text: "Add contact"
+                    action: addContact
+                }
             }
         }
 

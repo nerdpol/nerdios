@@ -11,17 +11,16 @@
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
-
-    QQmlApplicationEngine engine;
-
     QGuiApplication::setOrganizationName("nerdpol Inc.");
     QGuiApplication::setOrganizationDomain("nerdpol.io");
     QGuiApplication::setApplicationName("nerdios");
 
+    QQmlApplicationEngine engine;
+
     qmlRegisterType<NerdiosCore>("nerdioscore", 1, 0, "NerdiosCore");
     qmlRegisterType<QXmppClient>("nerdioscore", 1, 0, "QXmppClient");
     qmlRegisterType<QXMPPMessageQML>("nerdioscore", 1, 0, "QXMPPMessageQML");
-    //qmlRegisterType<QXmppClient::State>("nerdioscore", 1, 0, "QXmppClientState");
+
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     /*

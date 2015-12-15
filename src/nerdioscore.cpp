@@ -67,6 +67,11 @@ void NerdiosCore::sendMessage(const QString jid, const QString message)
     m_xmppClient->sendMessage(jid, message);
 }
 
+void NerdiosCore::addContact(const QString jid)
+{
+    m_xmppClient->rosterManager().addItem(jid);
+}
+
 void NerdiosCore::onRosterChanged()
 {
     emit rosterChanged();
