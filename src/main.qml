@@ -24,12 +24,11 @@ ApplicationWindow {
     menuBar: MenuBar {
             Menu {
                 title: "File"
-                MenuItem { text: "Open..." }
                 MenuItem {
-                    text: "about"
+                    text: "About"
                 }
                 MenuItem {
-                    text: "config"
+                    text: "Preferences"
                 }
                 MenuItem {
                     text: "Quit"
@@ -38,10 +37,16 @@ ApplicationWindow {
             }
 
             Menu {
-                title: "Edit"
-                MenuItem { text: "Cut" }
-                MenuItem { text: "Copy" }
-                MenuItem { text: "Paste" }
+                title: "Status"
+                MenuItem { text: "Available" }
+                MenuItem { text: "Away" }
+                MenuItem { text: "Do Not Disturb" }
+                MenuItem { text: "Offline" }
+            }
+
+            Menu {
+                title: "Contacts"
+                MenuItem { text: "Add contact" }
             }
         }
 
