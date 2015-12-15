@@ -41,6 +41,7 @@ signals:
 public slots:
     void onRosterChanged();
     void onConnected();
+    void onDisconnected();
 
 protected slots:
     void onMessageReceived(const QXmppMessage& message);

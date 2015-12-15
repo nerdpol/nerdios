@@ -10,6 +10,8 @@ NerdiosCore::NerdiosCore(QObject *parent)
     m_xmppClient->logger()->setLoggingType(QXmppLogger::StdoutLogging);
     QObject::connect(&this->m_xmppClient->rosterManager(), SIGNAL(rosterReceived()), this, SLOT(onRosterChanged()));
     QObject::connect(this->m_xmppClient, SIGNAL(messageReceived(QXmppMessage)), this, SLOT(onMessageReceived(QXmppMessage)));
+    QObject::connect(this->m_xmppClient, SIGNAL(connected()), this, SLOT(onConnected()));
+    QObject::connect(this->m_xmppClient, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
 }
 
 void NerdiosCore::setJID(QString jid)
@@ -77,6 +79,10 @@ void NerdiosCore::onConnected()
     QObject::connect(&this->m_xmppClient->rosterManager(), SIGNAL(itemAdded ()), this, SLOT(onRosterChanged()));
     QObject::connect(&this->m_xmppClient->rosterManager(), SIGNAL(itemChanged()), this, SLOT(onRosterChanged()));
     QObject::connect(&this->m_xmppClient->rosterManager(), SIGNAL(itemRemoved ()), this, SLOT(onRosterChanged()));
+
+void NerdiosCore::onDisconnected()
+{
+    emit rosterChanged();
 }
 
 void NerdiosCore::onMessageReceived(const QXmppMessage &message)
