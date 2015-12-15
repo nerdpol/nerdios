@@ -88,7 +88,13 @@ ApplicationWindow {
                     Button {
                         id: actionButton
                         text: "Connect"
-                        onClicked: nerdioscore.connect()
+                        onClicked: {
+                            if (text == "Connect") {
+                                nerdioscore.connect();
+                            } else {
+                                nerdioscore.disconnect();
+                            }
+                        }
                     }
                 }
             }
