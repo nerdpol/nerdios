@@ -84,6 +84,7 @@ void NerdiosCore::onConnected()
     QObject::connect(&this->m_xmppClient->rosterManager(), SIGNAL(itemAdded ()), this, SLOT(onRosterChanged()));
     QObject::connect(&this->m_xmppClient->rosterManager(), SIGNAL(itemChanged()), this, SLOT(onRosterChanged()));
     QObject::connect(&this->m_xmppClient->rosterManager(), SIGNAL(itemRemoved ()), this, SLOT(onRosterChanged()));
+}
 
 void NerdiosCore::onDisconnected()
 {

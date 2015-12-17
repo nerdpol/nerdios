@@ -9,7 +9,7 @@ Component {
             anchors.fill: parent
             onClicked: {
                 console.log(modelData)
-                messageBox.text += "Chat with" + modelData + ":\n"
+                focusChat(modelData, "")
             }
         }
     }

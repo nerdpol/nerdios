@@ -12,13 +12,51 @@ ApplicationWindow {
     width: 490
     height: 980
 
+    function focusChat(recipient, message) {
+        if (recipient === null) {
+            return;
+        }
+
+        var jid = recipient.split("/")[0]
+
+        if (messageStack.currentItem !== null && messageStack.currentItem.recipient === jid) {
+            if (message !== "") {
+                messageStack.currentItem.text += jid + ": " + message + "\n"
+            }
+            return;
+        }
+
+        var elem = messageStack.find(function(item) {
+            if (item !== null && item.recipient === jid) {
+                return true;
+            }
+            return false;
+        }, true)
+        if (elem !== null) {
+            elem = messageStack.pop(elem)
+            if (message !== "") {
+                elem.text += jid + ": " + message + "\n"
+            }
+            return;
+        }
+
+        // create new chat window
+        var newObject = Qt.createQmlObject('import QtQuick.Controls 1.4; TextArea {property string recipient}',
+            root, "dynamicSnippet1");
+        if (message === "") {
+            messageStack.push({item: newObject, properties: {recipient: jid}})
+        } else {
+            messageStack.push({item: newObject, properties: {recipient: jid, text: jid + ": " + message + "\n"}})
+        }
+    }
+
     NerdiosCore {
         id: nerdioscore
         jid: "test@example.io"
         password: "password"
 
         onMessageReceived: {
-            messageBox.text += (message.from + ": " + message.body + "\n")
+            focusChat(message.from, message.body)
         }
     }
 
@@ -133,8 +171,8 @@ ApplicationWindow {
                 }
             }
 
-            TextArea {
-                id: messageBox
+            StackView {
+                id: messageStack
                 Layout.fillWidth: true
                 Layout.fillHeight: true
             }
@@ -144,8 +182,9 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 anchors.bottom: parent.bottom
                 Keys.onReturnPressed: {
-                    nerdioscore.sendMessage("", messageField.text)
-                    messageBox.text += (nerdioscore.jid + ": " + messageField.text + "\n")
+                    console.log("recipient:", messageStack.currentItem)
+                    nerdioscore.sendMessage(messageStack.currentItem.recipient, messageField.text)
+                    messageStack.currentItem.text += nerdioscore.jid + ": " + messageField.text + "\n"
                     messageField.text = ""
                 }
             }
