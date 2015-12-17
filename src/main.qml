@@ -96,10 +96,33 @@ ApplicationWindow {
 
             Menu {
                 title: "Status"
-                MenuItem { text: "Available" }
-                MenuItem { text: "Away" }
-                MenuItem { text: "Do Not Disturb" }
-                MenuItem { text: "Offline" }
+                MenuItem {
+                    text: "Available"
+                    onTriggered: {
+                        nerdioscore.setStatus("available")
+                        clientPresence.text = "available"
+                    }
+                }
+                MenuItem {
+                    text: "Away"
+                    onTriggered: {
+                        nerdioscore.setStatus("away")
+                        clientPresence.text = "away"
+                    }
+                }
+                MenuItem {
+                    text: "Do Not Disturb"
+                    onTriggered: {
+                        nerdioscore.setStatus("do not disturb")
+                        clientPresence.text = "do not disturb"
+                    }
+                }
+                MenuItem {
+                    text: "Offline"
+                    onTriggered: {
+                        nerdioscore.disconnect()
+                    }
+                }
             }
 
             Menu {
@@ -144,6 +167,7 @@ ApplicationWindow {
                         text: nerdioscore.jid
                     }
                     Text {
+                        id: clientPresence
                         text: nerdioscore.xmppClient.state
                     }
                     Button {

@@ -98,3 +98,22 @@ void NerdiosCore::onMessageReceived(const QXmppMessage &message)
     emit messageReceived(messageQML);
     m_trayIcon->showMessage(message.from(), message.body());
 }
+
+void NerdiosCore::setStatus(const QString status)
+{
+    QXmppPresence presence;
+    if (status == "available") {
+        presence.setType(QXmppPresence::Type::Available);
+        presence.setAvailableStatusType(QXmppPresence::AvailableStatusType::Online);
+    } else if (status == "away") {
+        presence.setType(QXmppPresence::Type::Available);
+        presence.setAvailableStatusType(QXmppPresence::AvailableStatusType::Away);
+    } else if (status == "do not disturb") {
+        presence.setType(QXmppPresence::Type::Available);
+        presence.setAvailableStatusType(QXmppPresence::AvailableStatusType::DND);
+    } else {
+        return;
+    }
+
+    m_xmppClient->setClientPresence(presence);
+}

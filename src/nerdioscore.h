@@ -32,6 +32,7 @@ public:
     Q_INVOKABLE void disconnect();
     Q_INVOKABLE void sendMessage(const QString jid, const QString message);
     Q_INVOKABLE void addContact(const QString jid);
+    Q_INVOKABLE void setStatus(const QString status);
 
 signals:
     void jidChanged(const QString jid);
