@@ -41,12 +41,12 @@ ApplicationWindow {
         }
 
         // create new chat window
-        var newObject = Qt.createQmlObject('import QtQuick.Controls 1.4; TextArea {property string recipient}',
+        var newObject = Qt.createQmlObject('import QtQuick.Controls 1.4; TextArea {readOnly: true; property string recipient}',
             root, "dynamicSnippet1");
         if (message === "") {
-            messageStack.push({item: newObject, properties: {readOnly: true, recipient: jid}})
+            messageStack.push({item: newObject, properties: {recipient: jid}})
         } else {
-            messageStack.push({item: newObject, properties: {readOnly: true,recipient: jid, text: jid + ": " + message + "\n"}})
+            messageStack.push({item: newObject, properties: {recipient: jid, text: jid + ": " + message + "\n"}})
         }
     }
 
