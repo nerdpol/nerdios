@@ -44,9 +44,9 @@ ApplicationWindow {
         var newObject = Qt.createQmlObject('import QtQuick.Controls 1.4; TextArea {property string recipient}',
             root, "dynamicSnippet1");
         if (message === "") {
-            messageStack.push({item: newObject, properties: {recipient: jid}})
+            messageStack.push({item: newObject, properties: {readOnly: true, recipient: jid}})
         } else {
-            messageStack.push({item: newObject, properties: {recipient: jid, text: jid + ": " + message + "\n"}})
+            messageStack.push({item: newObject, properties: {readOnly: true,recipient: jid, text: jid + ": " + message + "\n"}})
         }
     }
 
@@ -62,10 +62,17 @@ ApplicationWindow {
         id: addContactDialog
         title: "Add a contact"
         standardButtons: StandardButton.Ok | StandardButton.Cancel
+        GridLayout {
+            id: addConteactGrid
+            columns: 2
+            rows: 1
+            Label {
+                text: "JID: "
+            }
             TextField {
                 id: jidField
-                text: "jid"
             }
+        }
         onAccepted: {
             console.log(jidField.text)
             nerdioscore.addContact(jidField.text)
@@ -77,7 +84,7 @@ ApplicationWindow {
         title: "Login"
         standardButtons: StandardButton.Ok | StandardButton.Cancel
         GridLayout {
-            id: grid
+            id: loginDialogGrid
             columns: 2
             rows: 2
             Label {
@@ -208,7 +215,9 @@ ApplicationWindow {
                         text: "Connect"
                         onClicked: {
                             if (text == "Connect") {
-                                nerdioscore.connect();
+                                if (nerdioscore.jid && nerdioscore.password) {
+                                    nerdioscore.connect();
+                                }
                             } else {
                                 nerdioscore.disconnect();
                             }

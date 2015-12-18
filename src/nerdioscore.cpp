@@ -79,11 +79,11 @@ void NerdiosCore::onRosterChanged()
 
 void NerdiosCore::onConnected()
 {
-    QObject::connect(&this->m_xmppClient->rosterManager(), SIGNAL(presenceChanged()), this, SLOT(onRosterChanged()));
-    QObject::connect(&this->m_xmppClient->rosterManager(), SIGNAL(subscriptionReceived()), this, SLOT(onRosterChanged()));
-    QObject::connect(&this->m_xmppClient->rosterManager(), SIGNAL(itemAdded ()), this, SLOT(onRosterChanged()));
-    QObject::connect(&this->m_xmppClient->rosterManager(), SIGNAL(itemChanged()), this, SLOT(onRosterChanged()));
-    QObject::connect(&this->m_xmppClient->rosterManager(), SIGNAL(itemRemoved ()), this, SLOT(onRosterChanged()));
+    QObject::connect(&this->m_xmppClient->rosterManager(), SIGNAL(presenceChanged(const QString&, const QString&)), this, SLOT(onRosterChanged()));
+    QObject::connect(&this->m_xmppClient->rosterManager(), SIGNAL(subscriptionReceived(const QString &bareJid)), this, SLOT(onRosterChanged()));
+    QObject::connect(&this->m_xmppClient->rosterManager(), SIGNAL(itemAdded (const QString&)), this, SLOT(onRosterChanged()));
+    QObject::connect(&this->m_xmppClient->rosterManager(), SIGNAL(itemChanged(const QString&)), this, SLOT(onRosterChanged()));
+    QObject::connect(&this->m_xmppClient->rosterManager(), SIGNAL(itemRemoved (const QString&)), this, SLOT(onRosterChanged()));
 }
 
 void NerdiosCore::onDisconnected()
