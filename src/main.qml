@@ -16,7 +16,7 @@ ApplicationWindow {
         if (recipient === null) {
             return;
         }
-
+        contactInfoText.text = recipient
         var jid = recipient.split("/")[0]
 
         if (messageStack.currentItem !== null && messageStack.currentItem.recipient === jid) {
@@ -196,6 +196,7 @@ ApplicationWindow {
 
                 model: nerdioscore.roster
                 delegate: RosterContactDelegate { }
+                spacing: 5
             }
 
             Rectangle {
@@ -233,6 +234,7 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 height: 50
                 Text {
+                    id: contactInfoText
                     text: "contact info"
                 }
             }
