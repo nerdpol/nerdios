@@ -52,8 +52,6 @@ ApplicationWindow {
 
     NerdiosCore {
         id: nerdioscore
-        jid: "test@example.io"
-        password: "password"
 
         onMessageReceived: {
             focusChat(message.from, message.body)
@@ -74,6 +72,36 @@ ApplicationWindow {
         }
     }
 
+    Dialog {
+        id: loginDialog
+        title: "Login"
+        standardButtons: StandardButton.Ok | StandardButton.Cancel
+        GridLayout {
+            id: grid
+            columns: 2
+            rows: 2
+            Label {
+                text: "Username: "
+            }
+            TextField {
+                id: loginName
+            }
+            Label {
+                text: "Password: "
+            }
+            TextField {
+                id: loginPassword
+                echoMode: TextInput.Password
+            }
+        }
+
+        onAccepted: {
+            nerdioscore.jid = loginName.text
+            nerdioscore.password = loginPassword.text
+            //nerdioscore.connect()
+        }
+    }
+
     Action {
         id: addContact
         onTriggered: addContactDialog.open()
@@ -82,6 +110,11 @@ ApplicationWindow {
     menuBar: MenuBar {
             Menu {
                 title: "File"
+                MenuItem {
+                    text: "Login"
+                    onTriggered: loginDialog.open()
+                }
+
                 MenuItem {
                     text: "About"
                 }
