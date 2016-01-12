@@ -27,6 +27,30 @@ void TCPRemoteServer::sendContacts(QTextStream &stream)
     stream << flush;
 }
 
+void TCPRemoteServer::sendPresence(QTextStream &stream)
+{
+    stream << m_core->status()<< endl << flush;
+}
+
+void TCPRemoteServer::sendPriority(QTextStream &stream)
+{
+    stream << m_core->priority() << endl<< flush;
+}
+
+void TCPRemoteServer::sendJID(QTextStream &stream)
+{
+    stream << m_core->jid() << endl<< flush;
+}
+
+void TCPRemoteServer::sendState(QTextStream &stream)
+{
+    if (m_core->isConnected()) {
+        stream << "connectet" << endl<< flush;
+    } else {
+        stream << "disconnectet" << endl<< flush;
+    }
+}
+
 void TCPRemoteServer::newConnection()
 {
     QTcpSocket *socket = m_server->nextPendingConnection();
@@ -49,6 +73,16 @@ void TCPRemoteServer::newConnection()
     if (m_core->xmppClient()->isConnected()) {
         if (line == "contacts") {
             sendContacts(*stream);
+        } else if (line == "status") {
+            sendPresence(*stream);
+        } else if (line == "priority") {
+            sendPriority(*stream);
+        } else if (line == "jid") {
+            sendJID(*stream);
+        } else if (line == "state") {
+            sendState(*stream);
+        } else {
+            *stream << "unknown_command_error" << endl << flush;
         }
     } else {
         *stream << "not_connected_error" << endl << flush;

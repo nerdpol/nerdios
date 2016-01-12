@@ -12,8 +12,11 @@ class TCPRemoteServer : public QObject
     Q_OBJECT
 public:
     explicit TCPRemoteServer(NerdiosCore* core, QObject *parent = 0);
-    void sendContacts(QTextStream &steam);
-    void sendStatus(QTextStream &steam);
+    void sendContacts(QTextStream &stream);
+    void sendPresence(QTextStream &stream);
+    void sendPriority(QTextStream &stream);
+    void sendJID(QTextStream &stream);
+    void sendState(QTextStream &stream);
 
 signals:
 

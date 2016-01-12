@@ -50,6 +50,29 @@ QStringList NerdiosCore::roster() const
     return m_xmppClient->rosterManager().getRosterBareJids();
 }
 
+int NerdiosCore::priority() const
+{
+    return m_xmppClient->clientPresence().priority();
+}
+
+QString NerdiosCore::status() const
+{
+    switch (m_xmppClient->clientPresence().availableStatusType()) {
+        case QXmppPresence::Online:
+            return "Online";
+        case QXmppPresence::Away:
+            return "Away";
+        case QXmppPresence::XA:
+            return "XA";
+        case QXmppPresence::DND:
+            return "DND";
+        case QXmppPresence::Chat:
+            return "Chat";
+        case QXmppPresence::Invisible:
+            return "Invisible";
+    }
+}
+
 void NerdiosCore::connect()
 {
     m_xmppClient->connectToServer(m_jid, m_password);
@@ -60,6 +83,11 @@ void NerdiosCore::disconnect()
     if (m_xmppClient->isConnected()) {
         m_xmppClient->disconnectFromServer();
     }
+}
+
+bool NerdiosCore::isConnected()
+{
+    return m_xmppClient->isConnected();
 }
 
 void NerdiosCore::sendMessage(const QString jid, const QString message)

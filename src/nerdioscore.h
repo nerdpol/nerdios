@@ -27,9 +27,12 @@ public:
     QString password() const;
     QXmppClient* xmppClient() const;
     QStringList roster() const;
+    int priority() const;
+    QString status() const;
 
     Q_INVOKABLE void connect();
     Q_INVOKABLE void disconnect();
+    Q_INVOKABLE bool isConnected();
     Q_INVOKABLE void sendMessage(const QString jid, const QString message);
     Q_INVOKABLE void addContact(const QString jid);
     Q_INVOKABLE void setStatus(const QString status);
