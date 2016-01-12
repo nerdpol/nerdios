@@ -231,6 +231,8 @@ ApplicationWindow {
                 Text {
                     id: contactInfoText
                     text: "contact info"
+                    font.pointSize: 20
+                    font.bold: true
                 }
             }
 
@@ -238,8 +240,11 @@ ApplicationWindow {
                 id: messageStack
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                delegate: StackViewDelegate {
+                        pushTransition: null
+                        popTransition: null
+                }
             }
-
             TextField {
                 id: messageField
                 Layout.fillWidth: true
