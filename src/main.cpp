@@ -6,7 +6,7 @@
 #include "consoleclient.h"
 #include "nerdioscore.h"
 #include "qxmppmessageqml.h"
-
+#include "tcpremoteserver.h"
 
 int main(int argc, char *argv[])
 {
@@ -16,10 +16,15 @@ int main(int argc, char *argv[])
     QGuiApplication::setApplicationName("nerdios");
 
     QQmlApplicationEngine engine;
-
-    qmlRegisterType<NerdiosCore>("nerdioscore", 1, 0, "NerdiosCore");
+    qmlRegisterUncreatableType<NerdiosCore>("nerdioscore", 1, 0, "NerdiosCore", "Do not create");
     qmlRegisterType<QXmppClient>("nerdioscore", 1, 0, "QXmppClient");
     qmlRegisterType<QXMPPMessageQML>("nerdioscore", 1, 0, "QXMPPMessageQML");
+
+    NerdiosCore *nerdioscore = new NerdiosCore();
+    TCPRemoteServer *tcpremoteserver = new TCPRemoteServer(nerdioscore);
+
+    QQmlContext *rootContext = engine.rootContext();
+    rootContext->setContextProperty("nerdioscore", nerdioscore);
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 

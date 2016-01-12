@@ -50,14 +50,6 @@ ApplicationWindow {
         }
     }
 
-    NerdiosCore {
-        id: nerdioscore
-
-        onMessageReceived: {
-            focusChat(message.from, message.body)
-        }
-    }
-
     Dialog {
         id: addContactDialog
         title: "Add a contact"
@@ -259,6 +251,13 @@ ApplicationWindow {
                     messageField.text = ""
                 }
             }
+        }
+    }
+
+    Connections {
+        target: nerdioscore
+        onMessageReceived: {
+            focusChat(message.from, message.body)
         }
     }
 

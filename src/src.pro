@@ -11,7 +11,8 @@ SUBDIRS += src \
 SOURCES += main.cpp \
     consoleclient.cpp \
     nerdioscore.cpp \
-    qxmppmessageqml.cpp
+    qxmppmessageqml.cpp \
+    tcpremoteserver.cpp
 
 RESOURCES += qml.qrc
 
@@ -27,7 +28,8 @@ include(deployment.pri)
 HEADERS += \
     consoleclient.h \
     nerdioscore.h \
-    qxmppmessageqml.h
+    qxmppmessageqml.h \
+    tcpremoteserver.h
 
 CONFIG(debug, debug|release) {
         LIBS += -L../3rdparty/qxmpp/src -lqxmpp_d
