@@ -105,7 +105,7 @@ ApplicationWindow {
         onAccepted: {
             nerdioscore.jid = loginName.text
             nerdioscore.password = loginPassword.text
-            //nerdioscore.connect()
+            nerdioscore.connect()
         }
     }
 
@@ -218,6 +218,9 @@ ApplicationWindow {
                             if (text == "Connect") {
                                 if (nerdioscore.jid && nerdioscore.password) {
                                     nerdioscore.connect();
+                                } else {
+                                    loginDialog.open();
+                                    loginName.focus = true;
                                 }
                             } else {
                                 nerdioscore.disconnect();
