@@ -16,6 +16,7 @@ class NerdiosCore : public QObject
     Q_PROPERTY(QString password READ password WRITE setPassword NOTIFY passwordChanged)
     Q_PROPERTY(QXmppClient* xmppClient READ xmppClient CONSTANT)
     Q_PROPERTY(QStringList roster READ roster NOTIFY rosterChanged)
+    Q_PROPERTY(QString state READ state NOTIFY stateChanged)
 
 public:
     explicit NerdiosCore(QObject *parent = 0);
@@ -29,6 +30,7 @@ public:
     QStringList roster() const;
     int priority() const;
     QString status() const;
+    QString state() const;
 
     Q_INVOKABLE void connect();
     Q_INVOKABLE void disconnect();
@@ -42,11 +44,13 @@ signals:
     void passwordChanged(const QString passwird);
     void rosterChanged();
     void messageReceived(QXMPPMessageQML* message);
+    void stateChanged(QString state);
 
 public slots:
     void onRosterChanged();
     void onConnected();
     void onDisconnected();
+    void onStateChanged();
 
 protected slots:
     void onMessageReceived(const QXmppMessage& message);

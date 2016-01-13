@@ -12,6 +12,7 @@ NerdiosCore::NerdiosCore(QObject *parent)
     QObject::connect(this->m_xmppClient, SIGNAL(messageReceived(QXmppMessage)), this, SLOT(onMessageReceived(QXmppMessage)));
     QObject::connect(this->m_xmppClient, SIGNAL(connected()), this, SLOT(onConnected()));
     QObject::connect(this->m_xmppClient, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
+    QObject::connect(this->m_xmppClient, SIGNAL(stateChanged(QXmppClient::State)), this, SLOT(onStateChanged()));
 }
 
 void NerdiosCore::setJID(QString jid)
@@ -73,6 +74,18 @@ QString NerdiosCore::status() const
     }
 }
 
+QString NerdiosCore::state() const
+{
+    switch (m_xmppClient->state()) {
+        case QXmppClient::State::ConnectedState:
+            return "Connected";
+        case QXmppClient::State::ConnectingState:
+            return "Connecting";
+        case QXmppClient::State::DisconnectedState:
+            return "Disconnected";
+    }
+}
+
 void NerdiosCore::connect()
 {
     m_xmppClient->connectToServer(m_jid, m_password);
@@ -119,9 +132,20 @@ void NerdiosCore::onDisconnected()
     emit rosterChanged();
 }
 
+void NerdiosCore::onStateChanged()
+{
+    switch (m_xmppClient->state()) {
+        case QXmppClient::State::ConnectedState:
+            emit stateChanged("Connected");
+        case QXmppClient::State::ConnectingState:
+            emit stateChanged("Connecting");
+        case QXmppClient::State::DisconnectedState:
+            emit stateChanged("Disconnected");
+    }
+}
+
 void NerdiosCore::onMessageReceived(const QXmppMessage &message)
 {
-    //QXMPPMessageQML messageQML(message);
     QXMPPMessageQML *messageQML = new QXMPPMessageQML(message, this);
     emit messageReceived(messageQML);
     m_trayIcon->showMessage(message.from(), message.body());

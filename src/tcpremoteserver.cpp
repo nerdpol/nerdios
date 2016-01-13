@@ -34,21 +34,17 @@ void TCPRemoteServer::sendPresence(QTextStream &stream)
 
 void TCPRemoteServer::sendPriority(QTextStream &stream)
 {
-    stream << m_core->priority() << endl<< flush;
+    stream << m_core->priority() << endl << flush;
 }
 
 void TCPRemoteServer::sendJID(QTextStream &stream)
 {
-    stream << m_core->jid() << endl<< flush;
+    stream << m_core->jid() << endl << flush;
 }
 
 void TCPRemoteServer::sendState(QTextStream &stream)
 {
-    if (m_core->isConnected()) {
-        stream << "connectet" << endl<< flush;
-    } else {
-        stream << "disconnectet" << endl<< flush;
-    }
+    stream <<  m_core->state().toLower() << endl << flush;
 }
 
 void TCPRemoteServer::newConnection()
@@ -66,7 +62,7 @@ void TCPRemoteServer::newConnection()
     socket->waitForReadyRead();
     QString line = stream->readLine();
 
-    qDebug() << "Incomming: " << line;
+    qDebug() << "Incomming line: " << line;
     if (line.isNull()) {
         return;
     }
@@ -82,9 +78,11 @@ void TCPRemoteServer::newConnection()
         } else if (line == "state") {
             sendState(*stream);
         } else {
+            qDebug() << "Unknown command recived: " << line;
             *stream << "unknown_command_error" << endl << flush;
         }
     } else {
+        qDebug() << "Recived command while not connected to a XMPP server.";
         *stream << "not_connected_error" << endl << flush;
     }
 

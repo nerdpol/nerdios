@@ -201,7 +201,7 @@ ApplicationWindow {
                     }
                     Text {
                         id: clientPresence
-                        text: nerdioscore.xmppClient.state
+                        text: nerdioscore.state
                     }
                     Button {
                         id: actionButton
@@ -231,6 +231,8 @@ ApplicationWindow {
                 Text {
                     id: contactInfoText
                     text: "contact info"
+                    anchors.verticalCenter: parent.verticalCenter
+                    verticalAlignment: Text.AlignTop
                     font.pointSize: 20
                     font.bold: true
                 }
