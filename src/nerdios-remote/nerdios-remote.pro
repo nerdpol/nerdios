@@ -1,7 +1,11 @@
 TEMPLATE = app
+
 TARGET = nerdios-remote
+
 CONFIG += console
-QT -= gui network
+
+QT -= gui
+QT += network
 
 HEADERS += \
     nerdiosremote.h
