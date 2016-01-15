@@ -16,6 +16,7 @@ ApplicationWindow {
         if (recipient === null) {
             return;
         }
+        messageField.readOnly = false
         contactInfoText.text = recipient
         var jid = recipient.split("/")[0]
 
@@ -179,12 +180,14 @@ ApplicationWindow {
             TextField {
                 id: searchField
                 Layout.fillWidth: true
+                Layout.margins: 5
             }
 
             ListView {
                 id: roster
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                Layout.margins: 5
 
                 model: nerdioscore.roster
                 delegate: RosterContactDelegate { }
@@ -194,8 +197,11 @@ ApplicationWindow {
             Rectangle {
                 id: clientInfo
                 Layout.fillWidth: true
-                height: 100
+                height: 80
                 ColumnLayout {
+                    anchors.left: parent.left
+                    anchors.leftMargin: 10
+                    anchors.verticalCenter: parent.verticalCenter
                     Text {
                         text: nerdioscore.jid
                     }
@@ -224,13 +230,18 @@ ApplicationWindow {
         }
         ColumnLayout {
             id: right
+            Layout.bottomMargin: 5
+            Layout.margins: 5
             Rectangle {
                 id: contactInfo
                 Layout.fillWidth: true
                 height: 50
+                color: "transparent"
+
                 Text {
                     id: contactInfoText
-                    text: "contact info"
+                    Layout.leftMargin: 10
+                    text: "Select a contact"
                     anchors.verticalCenter: parent.verticalCenter
                     verticalAlignment: Text.AlignTop
                     font.pointSize: 20
@@ -249,7 +260,9 @@ ApplicationWindow {
             }
             TextField {
                 id: messageField
+                readOnly: true
                 Layout.fillWidth: true
+                Layout.margins: 5
                 anchors.bottom: parent.bottom
                 Keys.onReturnPressed: {
                     console.log("recipient:", messageStack.currentItem)
