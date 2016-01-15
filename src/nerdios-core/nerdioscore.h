@@ -12,6 +12,7 @@
 class NerdiosCore : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QString lastUser READ lastUser WRITE setLastUser NOTIFY lastUserChanged)
     Q_PROPERTY(QString jid READ jid WRITE setJID NOTIFY jidChanged)
     Q_PROPERTY(QString password READ password WRITE setPassword NOTIFY passwordChanged)
     Q_PROPERTY(QXmppClient* xmppClient READ xmppClient CONSTANT)
@@ -23,9 +24,11 @@ public:
 
     void setJID(const QString jid);
     void setPassword(const QString password);
+    void setLastUser(const QString& lastUser);
 
     QString jid() const;
     QString password() const;
+    QString lastUser() const;
     QXmppClient* xmppClient() const;
     QStringList roster() const;
     int priority() const;
@@ -41,7 +44,8 @@ public:
 
 signals:
     void jidChanged(const QString jid);
-    void passwordChanged(const QString passwird);
+    void passwordChanged(const QString password);
+    void lastUserChanged(const QString &lastUser);
     void rosterChanged();
     void messageReceived(QXMPPMessageQML* message);
     void stateChanged(QString state);
@@ -60,6 +64,7 @@ protected:
     QString m_jid;
     QString m_password;
     QSystemTrayIcon* m_trayIcon;
+    QString m_lastUser;
 
 };
 

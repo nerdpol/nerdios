@@ -31,6 +31,14 @@ void NerdiosCore::setPassword(QString password)
     }
 }
 
+void NerdiosCore::setLastUser(const QString &lastUser)
+{
+    if (m_lastUser != lastUser) {
+        m_lastUser = lastUser;
+        emit lastUserChanged(lastUser);
+    }
+}
+
 QString NerdiosCore::jid() const
 {
     return m_jid;
@@ -39,6 +47,11 @@ QString NerdiosCore::jid() const
 QString NerdiosCore::password() const
 {
     return m_password;
+}
+
+QString NerdiosCore::lastUser() const
+{
+    return m_lastUser;
 }
 
 QXmppClient *NerdiosCore::xmppClient() const
@@ -149,6 +162,8 @@ void NerdiosCore::onMessageReceived(const QXmppMessage &message)
     QXMPPMessageQML *messageQML = new QXMPPMessageQML(message, this);
     emit messageReceived(messageQML);
     m_trayIcon->showMessage(message.from(), message.body());
+    m_lastUser = message.from();
+    onRosterChanged();
 }
 
 void NerdiosCore::setStatus(const QString status)

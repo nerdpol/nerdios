@@ -5,13 +5,16 @@ Component {
     id: rosterContactDelegate
 
     Rectangle {
+        property string rectColor: "blue"
+        property string jid: modelData
         height: 50
         width: parent.width
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                console.log(modelData)
-                focusChat(modelData, "")
+                console.log(jid)
+                focusChat(jid, "")
+                rectColor = "blue" // reset color
             }
         }
 
@@ -19,7 +22,15 @@ Component {
             Rectangle {
                 height: 50
                 width: 50
-                color: "blue"
+                color: {
+                    console.log("updating roster")
+                    if (jid === nerdioscore.lastUser) {
+                        nerdioscore.lastUser = ""
+                        return "red"
+                    } else {
+                        return "blue"
+                    }
+                }
             }
 
             ColumnLayout {
