@@ -18,6 +18,7 @@ class NerdiosCore : public QObject
     Q_PROPERTY(QXmppClient* xmppClient READ xmppClient CONSTANT)
     Q_PROPERTY(QStringList roster READ roster NOTIFY rosterChanged)
     Q_PROPERTY(QString state READ state NOTIFY stateChanged)
+    Q_PROPERTY(QString status READ status NOTIFY statusChanged)
 
 public:
     explicit NerdiosCore(QObject *parent = 0);
@@ -49,6 +50,7 @@ signals:
     void rosterChanged();
     void messageReceived(QXMPPMessageQML* message);
     void stateChanged(QString state);
+    void statusChanged(QString status);
 
 public slots:
     void onRosterChanged();

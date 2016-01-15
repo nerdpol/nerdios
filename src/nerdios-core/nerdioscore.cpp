@@ -147,14 +147,7 @@ void NerdiosCore::onDisconnected()
 
 void NerdiosCore::onStateChanged()
 {
-    switch (m_xmppClient->state()) {
-        case QXmppClient::State::ConnectedState:
-            emit stateChanged("Connected");
-        case QXmppClient::State::ConnectingState:
-            emit stateChanged("Connecting");
-        case QXmppClient::State::DisconnectedState:
-            emit stateChanged("Disconnected");
-    }
+    emit stateChanged(this->state());
 }
 
 void NerdiosCore::onMessageReceived(const QXmppMessage &message)
@@ -183,4 +176,5 @@ void NerdiosCore::setStatus(const QString status)
     }
 
     m_xmppClient->setClientPresence(presence);
+    emit statusChanged(this->status());
 }

@@ -133,21 +133,18 @@ ApplicationWindow {
                     text: "Available"
                     onTriggered: {
                         nerdioscore.setStatus("available")
-                        clientPresence.text = "available"
                     }
                 }
                 MenuItem {
                     text: "Away"
                     onTriggered: {
                         nerdioscore.setStatus("away")
-                        clientPresence.text = "away"
                     }
                 }
                 MenuItem {
                     text: "Do Not Disturb"
                     onTriggered: {
                         nerdioscore.setStatus("do not disturb")
-                        clientPresence.text = "do not disturb"
                     }
                 }
                 MenuItem {
@@ -205,9 +202,20 @@ ApplicationWindow {
                     Text {
                         text: nerdioscore.jid
                     }
-                    Text {
-                        id: clientPresence
-                        text: nerdioscore.state
+                    RowLayout {
+                        id: statusInfo
+                        Text {
+                            id: clientPresence
+                            text: nerdioscore.state
+                        }
+                        Text {
+                            text: "-"
+                        }
+
+                        Text {
+                            id: clientStatus
+                            text: nerdioscore.status
+                        }
                     }
                     Button {
                         id: actionButton
