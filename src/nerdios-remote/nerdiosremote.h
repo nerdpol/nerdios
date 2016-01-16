@@ -20,6 +20,8 @@ signals:
 public slots:
     void onSocketAvailable();
     void onReadyRead();
+    void onStateChanged(QAbstractSocket::SocketState socketState);
+    void onError(QAbstractSocket::SocketError socketError);
 
 protected:
     QTextStream m_out;

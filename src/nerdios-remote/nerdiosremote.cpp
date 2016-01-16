@@ -21,6 +21,8 @@ void NerdiosRemote::run(QString command, QString host, int port)
 
     qDebug() << "Try to connect to server...";
     connect(m_socket, SIGNAL(connected()), this, SLOT(onSocketAvailable()));
+    connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onError(QAbstractSocket::SocketError)));
+    connect(m_socket, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(onStateChanged(QAbstractSocket::SocketState)));
 }
 
 void NerdiosRemote::onSocketAvailable()
@@ -45,4 +47,34 @@ void NerdiosRemote::onReadyRead()
             m_err << line << endl << flush;
         }
     }
+    m_socket->disconnectFromHost();
+}
+
+void NerdiosRemote::onStateChanged(QAbstractSocket::SocketState socketState)
+{
+    qDebug() << "State changed," << socketState;
+}
+
+void NerdiosRemote::onError(QAbstractSocket::SocketError socketError)
+{
+    qDebug() << "Error," << socketError;
+    QString errorMsg;
+
+    switch (socketError) {
+        case QAbstractSocket::ConnectionRefusedError:
+            errorMsg = "Connection Refused";
+            break;
+        case QAbstractSocket::HostNotFoundError:
+            errorMsg = "Host Not Found";
+            break;
+        case QAbstractSocket::SocketTimeoutError:
+            errorMsg = "Socket Timeout";
+            break;
+        case QAbstractSocket::RemoteHostClosedError:
+            return;
+        default:
+            errorMsg = "Connection Error";
+            break;
+    }
+    m_err << errorMsg << endl << flush;
 }

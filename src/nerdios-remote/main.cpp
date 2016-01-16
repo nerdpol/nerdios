@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     parser.addHelpOption();
     parser.addVersionOption();
 
-    parser.addPositionalArgument("command", QCoreApplication::translate("main", "Command to execute. Options: state, status, contacs"));
+    parser.addPositionalArgument("command", QCoreApplication::translate("main", "Command to execute. Options: state, status, contacs, jid, priority"));
     QCommandLineOption hostOption("host", QCoreApplication::translate("main", "Specify a host (default is localhost)."), QCoreApplication::translate("main", "host"), "localhost");
     QCommandLineOption portOption("port", QCoreApplication::translate("main", "Specify a port (default is 1337)."), QCoreApplication::translate("main", "port"), "1337");
     parser.addOption(hostOption);
@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 
     // Check arguments and options
     if (args.size() != 1) {
-        err << QCoreApplication::translate("main", "Error: Must specify a command argument.") << endl;
+        err << QCoreApplication::translate("main", "Error: Must specify one command argument.") << endl;
         parser.showHelp(1);
     }
 
@@ -45,9 +45,9 @@ int main(int argc, char *argv[])
         parser.showHelp(1);
     }
 
-    qDebug() << "command: " << args.at(0);
-    qDebug() << "host: " << host;
-    qDebug() << "port: " << port;
+    qDebug() << "command:" << args.at(0);
+    qDebug() << "host:" << host;
+    qDebug() << "port:" << port;
 
     NerdiosRemote *remote = new NerdiosRemote();
     remote->run(args.at(0), host, port);
