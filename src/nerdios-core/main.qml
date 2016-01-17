@@ -12,43 +12,75 @@ ApplicationWindow {
     width: 490
     height: 980
 
-    function focusChat(recipient, message) {
-        if (recipient === null) {
+    function createChatWindow(recipient) {
+        console.log("createChatWindow:", recipient);
+        if (recipient === "") {
             return;
         }
-        messageField.readOnly = false
-        contactInfoText.text = recipient
-        var jid = recipient.split("/")[0]
 
-        if (messageStack.currentItem !== null && messageStack.currentItem.recipient === jid) {
-            if (message !== "") {
-                messageStack.currentItem.text += jid + ": " + message + "\n"
-            }
-            return;
-        }
+        // split jid and resource, and ignore the latter
+        var jid = recipient.split("/")[0];
 
         var elem = messageStack.find(function(item) {
             if (item !== null && item.recipient === jid) {
                 return true;
             }
             return false;
-        }, true)
-        if (elem !== null) {
-            elem = messageStack.pop(elem)
-            if (message !== "") {
-                elem.text += jid + ": " + message + "\n"
-            }
+        }, true);
+
+        console.log("createChatWindow::elem:", elem);
+        // create new chat window
+        if (elem === null) {
+            var newObject = Qt.createQmlObject('import QtQuick.Controls 1.4; TextArea {readOnly: true; property string recipient}',
+                root, "dynamicSnippet1");
+            messageStack.push({item: newObject, properties: {recipient: jid}});
+        }
+    }
+
+    function getChatWindow(recipient, focus) {
+        console.log("getChatWindow:", recipient, focus);
+        if (recipient === "") {
             return;
         }
 
-        // create new chat window
-        var newObject = Qt.createQmlObject('import QtQuick.Controls 1.4; TextArea {readOnly: true; property string recipient}',
-            root, "dynamicSnippet1");
-        if (message === "") {
-            messageStack.push({item: newObject, properties: {recipient: jid}})
-        } else {
-            messageStack.push({item: newObject, properties: {recipient: jid, text: jid + ": " + message + "\n"}})
+        // split jid and resource, and ignore the latter
+        var jid = recipient.split("/")[0];
+
+        var elem = messageStack.find(function(item) {
+            if (item !== null && item.recipient === jid) {
+                return true;
+            }
+            return false;
+        }, true);
+
+        console.log("getChatWindow::elem:", elem);
+        if (elem !== null) {
+            // automatically focus if only one chat window exist
+            if (messageStack.depth === 1 || focus === true) {
+                messageStack.pop(elem);
+                messageField.readOnly = false;
+                contactInfoText.text = recipient;
+            }
+            return elem;
         }
+    }
+
+    function addMessage(recipient, message) {
+        if (recipient === "" || message === "") {
+            return;
+        }
+
+        // split jid and resource, and ignore the latter
+        var jid = recipient.split("/")[0];
+
+        var elem = getChatWindow(recipient, false);
+        console.log("addMessage::elem:", elem);
+        if (elem === undefined) {
+            createChatWindow(recipient);
+            elem = getChatWindow(recipient, false);
+        }
+
+        elem.text += jid + ": " + message + "\n"
     }
 
     Dialog {
@@ -269,8 +301,8 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 delegate: StackViewDelegate {
-                        pushTransition: null
-                        popTransition: null
+                        pushTransition: PropertyAnimation {}
+                        popTransition: PropertyAnimation {}
                 }
             }
             TextField {
@@ -292,7 +324,7 @@ ApplicationWindow {
     Connections {
         target: nerdioscore
         onMessageReceived: {
-            focusChat(message.from, message.body)
+            addMessage(message.from, message.body)
         }
     }
 

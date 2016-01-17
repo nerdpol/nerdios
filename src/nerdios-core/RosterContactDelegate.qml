@@ -13,8 +13,12 @@ Rectangle {
         anchors.fill: parent
         onClicked: {
             console.log(jid)
-            focusChat(jid, "")
-            rectColor = "blue" // reset color
+            var elem = getChatWindow(jid, true);
+            if (elem === undefined) {
+                createChatWindow(jid);
+                getChatWindow(jid, true);
+            }
+            rectColor = "blue"; // reset color
         }
     }
 
