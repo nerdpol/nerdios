@@ -186,8 +186,15 @@ ApplicationWindow {
                 Layout.fillHeight: true
                 Layout.margins: 5
 
-                model: nerdioscore.roster
-                delegate: RosterContactDelegate { }
+                model: ContactList {
+                    xmppClient: nerdioscore.xmppClient
+                }
+
+                delegate: RosterContactDelegate {
+                    jid: model.jid
+                    type: model.type
+                    availableType: model.available_type
+                }
                 spacing: 5
             }
 

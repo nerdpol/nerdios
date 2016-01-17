@@ -11,7 +11,8 @@ SOURCES += main.cpp \
     consoleclient.cpp \
     nerdioscore.cpp \
     qxmppmessageqml.cpp \
-    tcpremoteserver.cpp
+    tcpremoteserver.cpp \
+    contactlist.cpp
 
 RESOURCES += qml.qrc
 
@@ -28,7 +29,9 @@ HEADERS += \
     consoleclient.h \
     nerdioscore.h \
     qxmppmessageqml.h \
-    tcpremoteserver.h
+    tcpremoteserver.h \
+    contactlist.h \
+    utils.h
 
 CONFIG(debug, debug|release) {
         LIBS += -L../../3rdparty/qxmpp/src -lqxmpp_d

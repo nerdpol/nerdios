@@ -16,6 +16,7 @@ class NerdiosCore : public QObject
     Q_PROPERTY(QString jid READ jid WRITE setJID NOTIFY jidChanged)
     Q_PROPERTY(QString password READ password WRITE setPassword NOTIFY passwordChanged)
     Q_PROPERTY(QXmppClient* xmppClient READ xmppClient CONSTANT)
+    Q_PROPERTY(QXmppRosterManager* rosterManager READ rosterManager CONSTANT)
     Q_PROPERTY(QStringList roster READ roster NOTIFY rosterChanged)
     Q_PROPERTY(QString state READ state NOTIFY stateChanged)
     Q_PROPERTY(QString status READ status NOTIFY statusChanged)
@@ -31,6 +32,7 @@ public:
     QString password() const;
     QString lastUser() const;
     QXmppClient* xmppClient() const;
+    QXmppRosterManager *rosterManager() const;
     QStringList roster() const;
     int priority() const;
     QString status() const;

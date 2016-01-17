@@ -1,6 +1,7 @@
 #include "nerdioscore.h"
 #include <QXmppRosterManager.h>
 #include <QXmppMessage.h>
+#include "utils.h"
 
 NerdiosCore::NerdiosCore(QObject *parent)
     : QObject(parent)
@@ -59,6 +60,16 @@ QXmppClient *NerdiosCore::xmppClient() const
     return m_xmppClient;
 }
 
+QXmppRosterManager *NerdiosCore::rosterManager() const
+{
+    if (m_xmppClient) {
+        QXmppRosterManager &rosterManager = m_xmppClient->rosterManager();
+        return &rosterManager;
+    }
+
+    return NULL;
+}
+
 QStringList NerdiosCore::roster() const
 {
     return m_xmppClient->rosterManager().getRosterBareJids();
@@ -71,32 +82,12 @@ int NerdiosCore::priority() const
 
 QString NerdiosCore::status() const
 {
-    switch (m_xmppClient->clientPresence().availableStatusType()) {
-        case QXmppPresence::Online:
-            return "Online";
-        case QXmppPresence::Away:
-            return "Away";
-        case QXmppPresence::XA:
-            return "XA";
-        case QXmppPresence::DND:
-            return "DND";
-        case QXmppPresence::Chat:
-            return "Chat";
-        case QXmppPresence::Invisible:
-            return "Invisible";
-    }
+    return availableStatusTypeToString(m_xmppClient->clientPresence().availableStatusType());
 }
 
 QString NerdiosCore::state() const
 {
-    switch (m_xmppClient->state()) {
-        case QXmppClient::State::ConnectedState:
-            return "Connected";
-        case QXmppClient::State::ConnectingState:
-            return "Connecting";
-        case QXmppClient::State::DisconnectedState:
-            return "Disconnected";
-    }
+    return stateToString(m_xmppClient->state());
 }
 
 void NerdiosCore::connect()

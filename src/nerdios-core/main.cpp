@@ -7,6 +7,7 @@
 #include "nerdioscore.h"
 #include "qxmppmessageqml.h"
 #include "tcpremoteserver.h"
+#include "contactlist.h"
 
 int main(int argc, char *argv[])
 {
@@ -19,6 +20,7 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<NerdiosCore>("nerdioscore", 1, 0, "NerdiosCore", "Do not create");
     qmlRegisterType<QXmppClient>("nerdioscore", 1, 0, "QXmppClient");
     qmlRegisterType<QXMPPMessageQML>("nerdioscore", 1, 0, "QXMPPMessageQML");
+    qmlRegisterType<ContactList>("nerdioscore", 1, 0, "ContactList");
 
     NerdiosCore *nerdioscore = new NerdiosCore();
     TCPRemoteServer *tcpremoteserver = new TCPRemoteServer(nerdioscore);
