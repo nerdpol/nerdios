@@ -42,6 +42,7 @@ public slots:
     void itemAdded(const QString& bareJid);
     void itemChanged(const QString& bareJid);
     void itemRemoved(const QString& bareJid);
+    void messageReceived(const QXmppMessage &message);
 
 protected:
     QList<QVariantMap> m_contacts;

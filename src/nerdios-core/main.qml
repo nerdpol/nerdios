@@ -12,6 +12,20 @@ ApplicationWindow {
     width: 490
     height: 980
 
+    function hasFocus(recipient) {
+        console.log("hasFocus:", recipient);
+        if (recipient === "") {
+            return;
+        }
+
+        // split jid and resource, and ignore the latter
+        var jid = recipient.split("/")[0];
+
+        var elem = messageStack.currentItem;
+        console.log("hasFocus::elem.recipient:", elem.recipient);
+        return (elem.recipient === jid);
+    }
+
     function createChatWindow(recipient) {
         console.log("createChatWindow:", recipient);
         if (recipient === "") {
@@ -59,7 +73,7 @@ ApplicationWindow {
             if (messageStack.depth === 1 || focus === true) {
                 messageStack.pop(elem);
                 messageField.readOnly = false;
-                contactInfoText.text = recipient;
+                contactInfoText.text = jid;
             }
             return elem;
         }

@@ -6,9 +6,9 @@ Rectangle {
     property string jid: ""
     property string type: ""
     property string availableType: ""
-    property string rectColor: "blue"
     height: 50
     width: parent.width
+
     MouseArea {
         anchors.fill: parent
         onClicked: {
@@ -18,25 +18,29 @@ Rectangle {
                 createChatWindow(jid);
                 getChatWindow(jid, true);
             }
-            rectColor = "blue"; // reset color
+            rect.color = "blue"; // reset color
         }
     }
 
     RowLayout {
         Rectangle {
+            id: rect
             height: 50
             width: 50
             color: {
-                console.log("updating roster")
-                if (jid === nerdioscore.lastUser) {
-                    nerdioscore.lastUser = ""
-                    return "red"
+                console.log("updating roster");
+                var lastUser = nerdioscore.lastUser.split("/")[0];
+                if (jid === lastUser) {
+                    nerdioscore.lastUser = "";
+                    if (!hasFocus(lastUser)) {
+                        return "red";
+                    }
                 } else {
                     if (type === "Available" && availableType === "Away") {
-                        return "orange"
+                        return "orange";
                     }
-                    return "blue"
                 }
+                return "blue";
             }
         }
 

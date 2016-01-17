@@ -28,6 +28,7 @@ void ContactList::setXmppClient(QXmppClient *xmppClient)
         disconnect(&(m_xmppClient->rosterManager()), SIGNAL(itemAdded(QString)), this, SLOT(itemAdded(QString)));
         disconnect(&(m_xmppClient->rosterManager()), SIGNAL(itemChanged(QString)), this, SLOT(itemChanged(QString)));
         disconnect(&(m_xmppClient->rosterManager()), SIGNAL(itemRemoved(QString)), this, SLOT(itemRemoved(QString)));
+        disconnect(m_xmppClient, SIGNAL(messageReceived(QXmppMessage)), this, SLOT(messageReceived(QXmppMessage)));
     }
 
     m_xmppClient = xmppClient;
@@ -40,6 +41,7 @@ void ContactList::setXmppClient(QXmppClient *xmppClient)
         connect(&(m_xmppClient->rosterManager()), SIGNAL(itemAdded(QString)), this, SLOT(itemAdded(QString)));
         connect(&(m_xmppClient->rosterManager()), SIGNAL(itemChanged(QString)), this, SLOT(itemChanged(QString)));
         connect(&(m_xmppClient->rosterManager()), SIGNAL(itemRemoved(QString)), this, SLOT(itemRemoved(QString)));
+        connect(m_xmppClient, SIGNAL(messageReceived(QXmppMessage)), this, SLOT(messageReceived(QXmppMessage)));
     }
 
     emit xmppClientChanged();
@@ -115,6 +117,12 @@ void ContactList::itemChanged(const QString &bareJid)
 void ContactList::itemRemoved(const QString &bareJid)
 {
     Q_UNUSED(bareJid)
+    reset();
+}
+
+void ContactList::messageReceived(const QXmppMessage &message)
+{
+    Q_UNUSED(message)
     reset();
 }
 
