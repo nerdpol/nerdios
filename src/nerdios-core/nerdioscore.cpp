@@ -124,7 +124,11 @@ void NerdiosCore::sendMessage(const QString jid, const QString message)
 
 void NerdiosCore::addContact(const QString jid)
 {
-    m_xmppClient->rosterManager().addItem(jid);
+    if (isValidJid(jid)) {
+        m_xmppClient->rosterManager().addItem(jid);
+    } else {
+        qDebug() << "invalid jid:" << jid;
+    }
 }
 
 void NerdiosCore::onRosterChanged()

@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
     QGuiApplication::setOrganizationName("nerdpol Inc.");
     QGuiApplication::setOrganizationDomain("nerdpol.io");
     QGuiApplication::setApplicationName("nerdios");
+    QGuiApplication::setApplicationVersion("0.1.0");
     QGuiApplication::setWindowIcon(QIcon(":/nerdios-core.icns"));
 
     QQmlApplicationEngine engine;
