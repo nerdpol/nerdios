@@ -38,3 +38,5 @@ CONFIG(debug, debug|release) {
 } else {
         LIBS += -L../../3rdparty/qxmpp/src -lqxmpp
 }
+
+ICON = nerdios-core.icns
