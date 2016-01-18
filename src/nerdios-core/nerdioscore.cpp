@@ -3,11 +3,21 @@
 #include <QXmppMessage.h>
 #include "utils.h"
 
+#ifdef Q_OS_MACX
+    #include <QtMac>
+#endif
+
+
 NerdiosCore::NerdiosCore(QObject *parent)
     : QObject(parent)
     , m_xmppClient(new QXmppClient(this))
     , m_trayIcon(new QSystemTrayIcon(this))
 {
+    //m_trayIcon->show();
+    qDebug() << "QSystemTrayIcon.isSystemTrayAvailable:" << m_trayIcon->isSystemTrayAvailable();
+    qDebug() << "QSystemTrayIcon.supportsMessages:" << m_trayIcon->supportsMessages();
+    qDebug() << "QSystemTrayIcon.isVisible:" << m_trayIcon->isVisible();
+
     m_xmppClient->logger()->setLoggingType(QXmppLogger::StdoutLogging);
     QObject::connect(&this->m_xmppClient->rosterManager(), SIGNAL(rosterReceived()), this, SLOT(onRosterChanged()));
     QObject::connect(this->m_xmppClient, SIGNAL(messageReceived(QXmppMessage)), this, SLOT(onMessageReceived(QXmppMessage)));
@@ -143,6 +153,9 @@ void NerdiosCore::onStateChanged()
 
 void NerdiosCore::onMessageReceived(const QXmppMessage &message)
 {
+#ifdef Q_OS_MACX
+    QtMac::setBadgeLabelText("1");
+#endif
     QXMPPMessageQML *messageQML = new QXMPPMessageQML(message, this);
     emit messageReceived(messageQML);
     m_trayIcon->showMessage(message.from(), message.body());
