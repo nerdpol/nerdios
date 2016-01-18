@@ -6,6 +6,8 @@ Rectangle {
     property string jid: ""
     property string type: ""
     property string availableType: ""
+    property string history: ""
+
     height: 50
     width: parent.width
 
@@ -19,6 +21,7 @@ Rectangle {
                 getChatWindow(jid, true);
             }
             rect.color = "blue"; // reset color
+            history = "";
         }
     }
 
@@ -51,7 +54,7 @@ Rectangle {
                 anchors.top: parent.top
             }
             Text {
-                text: "last chat histo..."
+                text: history
             }
         }
 

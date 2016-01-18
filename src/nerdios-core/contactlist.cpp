@@ -70,6 +70,8 @@ QVariant ContactList::data(const QModelIndex &index, int role) const
         return map.value("type");
     case AvailableTypeRole:
         return map.value("available_type");
+    case LastMessageRole:
+        return map.value("last_message");
     }
 
     return QVariant();
@@ -81,6 +83,7 @@ QHash<int, QByteArray> ContactList::roleNames() const
     roleNames.insert(JidRole, "jid");
     roleNames.insert(TypeRole, "type");
     roleNames.insert(AvailableTypeRole, "available_type");
+    roleNames.insert(LastMessageRole, "last_message");
     return roleNames;
 
 }
@@ -122,7 +125,7 @@ void ContactList::itemRemoved(const QString &bareJid)
 
 void ContactList::messageReceived(const QXmppMessage &message)
 {
-    Q_UNUSED(message)
+    m_lastMessages.insert(message.from().split("/")[0], message.body());
     reset();
 }
 
@@ -137,6 +140,7 @@ void ContactList::reset()
             QMap<QString, QXmppPresence> presences = m_xmppClient->rosterManager().getAllPresencesForBareJid(jid);
 
             map.insert("jid", jid);
+            map.insert("last_message", m_lastMessages.value(jid));
             // We only care about one resource (at the moment), and that's the first.
             if (!presences.isEmpty()) {
                 map.insert("type", typeToString(presences.first().type()));

@@ -5,6 +5,7 @@
 #include <QtGlobal>
 #include <QAbstractListModel>
 
+#include "QXmppMessage.h"
 #include "QXmppClient.h"
 
 class ContactList : public QAbstractListModel
@@ -17,7 +18,8 @@ public:
     enum Roles {
         JidRole = Qt::UserRole + 1,
         TypeRole,
-        AvailableTypeRole
+        AvailableTypeRole,
+        LastMessageRole
     };
 
     ContactList(QObject *parent = 0);
@@ -47,6 +49,7 @@ public slots:
 protected:
     QList<QVariantMap> m_contacts;
     QXmppClient *m_xmppClient;
+    QMap<QString,QString> m_lastMessages;
 };
 
 #endif // CONTACTLIST_H

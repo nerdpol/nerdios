@@ -34,6 +34,17 @@ ApplicationWindow {
         fileLogin.enabled = true
     }
 
+    function truncateString(msg, length) {
+        // don't accept negative lengths
+        if (length < 0) {
+            return msg;
+        }
+        if (msg.length <= length) {
+            return msg;
+        }
+        return (msg.substring(0, length - 3) + "...");
+    }
+
     function hasFocus(recipient) {
         console.log("hasFocus:", recipient);
         if (recipient === "") {
@@ -295,6 +306,7 @@ ApplicationWindow {
                     jid: model.jid
                     type: model.type
                     availableType: model.available_type
+                    history: truncateString(model.last_message, 20)
                 }
                 spacing: 5
             }
