@@ -2,7 +2,9 @@ TEMPLATE = app
 
 TARGET = nerdios
 
-QT += qml quick widgets macextras
+QT += qml quick widgets
+macx:QT += macextras
+
 CONFIG += c++11
 
 SUBDIRS += ../../3rdparty
