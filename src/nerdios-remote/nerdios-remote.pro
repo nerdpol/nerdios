@@ -4,6 +4,8 @@ TARGET = nerdios-remote
 
 CONFIG += console
 
+CONFIG(release):DEFINES += QT_NO_DEBUG_OUTPUT
+
 QT -= gui
 QT += network
 

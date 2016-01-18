@@ -45,14 +45,14 @@ void NerdiosRemote::onReadyRead()
         }
         if (!line.endsWith("_error")) {
             m_out << line << endl << flush;
-            m_socket->disconnectFromHost();
-            exit(0);
         } else {
             m_err << line << endl << flush;
             m_socket->disconnectFromHost();
             exit(1);
         }
     }
+    m_socket->disconnectFromHost();
+    exit(0);
 }
 
 void NerdiosRemote::onTimeout()
