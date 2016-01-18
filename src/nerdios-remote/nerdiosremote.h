@@ -5,6 +5,7 @@
 #include <QTextStream>
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <QTimer>
 #include <QDebug>
 
 class NerdiosRemote : public QObject
@@ -20,6 +21,7 @@ signals:
 public slots:
     void onSocketAvailable();
     void onReadyRead();
+    void onTimeout();
     void onStateChanged(QAbstractSocket::SocketState socketState);
     void onError(QAbstractSocket::SocketError socketError);
 
@@ -31,6 +33,7 @@ protected:
     quint16 m_serverPort;
     QTcpSocket* m_socket;
     QTextStream m_stream;
+    QTimer* m_timeout;
 };
 
 #endif // NERDIOSREMOTE_H

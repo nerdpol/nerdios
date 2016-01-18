@@ -6,8 +6,9 @@ NerdiosRemote::NerdiosRemote(QObject *parent)
     , m_err(stderr)
     , m_serverPort(1337)
     , m_socket(0)
+    , m_timeout(new QTimer(this))
 {
-
+    connect(m_timeout, SIGNAL(timeout()), this, SLOT(onTimeout()));
 }
 
 void NerdiosRemote::run(QString command, QString host, int port)
@@ -23,6 +24,7 @@ void NerdiosRemote::run(QString command, QString host, int port)
     connect(m_socket, SIGNAL(connected()), this, SLOT(onSocketAvailable()));
     connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onError(QAbstractSocket::SocketError)));
     connect(m_socket, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(onStateChanged(QAbstractSocket::SocketState)));
+    m_timeout->start(10000); // 10 sec
 }
 
 void NerdiosRemote::onSocketAvailable()
@@ -43,11 +45,21 @@ void NerdiosRemote::onReadyRead()
         }
         if (!line.endsWith("_error")) {
             m_out << line << endl << flush;
+            m_socket->disconnectFromHost();
+            exit(0);
         } else {
             m_err << line << endl << flush;
+            m_socket->disconnectFromHost();
+            exit(1);
         }
     }
+}
+
+void NerdiosRemote::onTimeout()
+{
+    m_err << "Error, timeout" << endl << flush;
     m_socket->disconnectFromHost();
+    exit(1);
 }
 
 void NerdiosRemote::onStateChanged(QAbstractSocket::SocketState socketState)
@@ -77,4 +89,6 @@ void NerdiosRemote::onError(QAbstractSocket::SocketError socketError)
             break;
     }
     m_err << errorMsg << endl << flush;
+    m_socket->disconnectFromHost();
+    exit(1);
 }
