@@ -12,6 +12,28 @@ ApplicationWindow {
     width: 490
     height: 980
 
+    function onConnectetd() {
+        statusAvailable.enabled = true
+        statusAway.enabled = true
+        statusChat.enabled = true
+        statusDND.enabled = true
+        statusXA.enabled = true
+        statusOffline.enabled = true
+        contactsAddContact.enabled = true
+        fileLogin.enabled = false
+    }
+
+    function onDisconnectetd() {
+        statusAvailable.enabled = false
+        statusAway.enabled = false
+        statusChat.enabled = false
+        statusDND.enabled = false
+        statusXA.enabled = false
+        statusOffline.enabled = false
+        contactsAddContact.enabled = false
+        fileLogin.enabled = true
+    }
+
     function hasFocus(recipient) {
         console.log("hasFocus:", recipient);
         if (recipient === "") {
@@ -157,6 +179,7 @@ ApplicationWindow {
             Menu {
                 title: "File"
                 MenuItem {
+                    id: fileLogin
                     text: "Login"
                     onTriggered: loginDialog.open()
                 }
@@ -181,37 +204,49 @@ ApplicationWindow {
             Menu {
                 title: "Status"
                 MenuItem {
+                    id: statusAvailable
                     text: "Available"
+                    enabled: false
                     onTriggered: {
                         nerdioscore.setStatus("available")
                     }
                 }
                 MenuItem {
+                    id: statusChat
                     text: "Chat"
+                    enabled: false
                     onTriggered: {
                         nerdioscore.setStatus("chat")
                     }
                 }
                 MenuItem {
+                    id: statusAway
                     text: "Away"
+                    enabled: false
                     onTriggered: {
                         nerdioscore.setStatus("away")
                     }
                 }
                 MenuItem {
+                    id: statusXA
                     text: "XA"
+                    enabled: false
                     onTriggered: {
                         nerdioscore.setStatus("xa")
                     }
                 }
                 MenuItem {
+                    id: statusDND
                     text: "Do Not Disturb"
+                    enabled: false
                     onTriggered: {
                         nerdioscore.setStatus("do not disturb")
                     }
                 }
                 MenuItem {
+                    id: statusOffline
                     text: "Offline"
+                    enabled: false
                     onTriggered: {
                         nerdioscore.disconnect()
                     }
@@ -221,8 +256,10 @@ ApplicationWindow {
             Menu {
                 title: "Contacts"
                 MenuItem {
+                    id: contactsAddContact
                     text: "Add contact"
-                    action: addContact
+                    enabled: false
+                    onTriggered: addContact
                 }
             }
         }
@@ -248,6 +285,7 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 Layout.margins: 5
+                z: -1
 
                 model: ContactList {
                     xmppClient: nerdioscore.xmppClient
@@ -363,9 +401,11 @@ ApplicationWindow {
         target: nerdioscore.xmppClient
         onConnected: {
             actionButton.text = "Disconnect"
+            onConnectetd();
         }
         onDisconnected: {
             actionButton.text = "Connect"
+            onDisconnectetd();
         }
     }
 }
