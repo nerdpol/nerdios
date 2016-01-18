@@ -163,6 +163,11 @@ ApplicationWindow {
 
                 MenuItem {
                     text: "About"
+                    onTriggered: {
+                        var component = Qt.createComponent("AboutDialog.qml")
+                        var window    = component.createObject(root)
+                        window.show()
+                            }
                 }
                 MenuItem {
                     text: "Preferences"

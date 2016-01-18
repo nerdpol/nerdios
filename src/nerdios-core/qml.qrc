@@ -4,5 +4,6 @@
         <file>RosterContactDelegate.qml</file>
         <file>AboutDialog.qml</file>
         <file>SettingsDialog.qml</file>
+        <file>images/XMPP_logo.svg</file>
     </qresource>
 </RCC>
