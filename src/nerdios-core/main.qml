@@ -187,9 +187,21 @@ ApplicationWindow {
                     }
                 }
                 MenuItem {
+                    text: "Chat"
+                    onTriggered: {
+                        nerdioscore.setStatus("chat")
+                    }
+                }
+                MenuItem {
                     text: "Away"
                     onTriggered: {
                         nerdioscore.setStatus("away")
+                    }
+                }
+                MenuItem {
+                    text: "XA"
+                    onTriggered: {
+                        nerdioscore.setStatus("xa")
                     }
                 }
                 MenuItem {

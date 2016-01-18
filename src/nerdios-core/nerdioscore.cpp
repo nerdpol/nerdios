@@ -162,6 +162,12 @@ void NerdiosCore::setStatus(const QString status)
     } else if (status == "do not disturb") {
         presence.setType(QXmppPresence::Type::Available);
         presence.setAvailableStatusType(QXmppPresence::AvailableStatusType::DND);
+    } else if (status == "xa") {
+        presence.setType(QXmppPresence::Type::Available);
+        presence.setAvailableStatusType(QXmppPresence::AvailableStatusType::XA);
+    } else if (status == "chat") {
+        presence.setType(QXmppPresence::Type::Available);
+        presence.setAvailableStatusType(QXmppPresence::AvailableStatusType::Chat);
     } else {
         return;
     }
