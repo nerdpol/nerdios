@@ -33,6 +33,9 @@ Rectangle {
             color: {
                 console.log("updating roster");
                 var lastUser = nerdioscore.lastUser.split("/")[0];
+                if (type == "") {
+                    return "grey";
+                }
                 if (jid === lastUser) {
                     nerdioscore.lastUser = "";
                     if (!hasFocus(lastUser)) {
