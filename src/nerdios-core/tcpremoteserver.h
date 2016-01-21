@@ -22,6 +22,7 @@ signals:
 
 public slots:
     void newConnection();
+    void onAcceptError(QAbstractSocket::SocketError socketError);
 
 protected:
     NerdiosCore* m_core;

@@ -8,6 +8,7 @@ TCPRemoteServer::TCPRemoteServer(NerdiosCore* core, QObject *parent)
 {
     m_server = new QTcpServer(this);
     connect(m_server, SIGNAL(newConnection()), this, SLOT(newConnection()));
+    connect(m_server, SIGNAL(acceptError(QAbstractSocket::SocketError)), this, SLOT(onAcceptError(QAbstractSocket::SocketError)));
 
     if(!m_server->listen(QHostAddress::Any, m_serverPort))
     {
@@ -88,4 +89,9 @@ void TCPRemoteServer::newConnection()
 
     socket->waitForBytesWritten(3000);
     socket->close();
+}
+
+void TCPRemoteServer::onAcceptError(QAbstractSocket::SocketError socketError)
+{
+    qDebug() << "TCP server error on new connection:" << socketError;
 }

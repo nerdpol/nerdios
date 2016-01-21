@@ -13,6 +13,7 @@ ApplicationWindow {
     height: 980
 
     function onConnectetd() {
+        actionButton.text = "Disconnect"
         statusAvailable.enabled = true
         statusAway.enabled = true
         statusChat.enabled = true
@@ -21,9 +22,13 @@ ApplicationWindow {
         statusOffline.enabled = true
         contactsAddContact.enabled = true
         fileLogin.enabled = false
+        if (messageStack.depth > 0) {
+            messageField.readOnly = false
+        }
     }
 
     function onDisconnectetd() {
+        actionButton.text = "Connect"
         statusAvailable.enabled = false
         statusAway.enabled = false
         statusChat.enabled = false
@@ -32,6 +37,7 @@ ApplicationWindow {
         statusOffline.enabled = false
         contactsAddContact.enabled = false
         fileLogin.enabled = true
+        messageField.readOnly = true
     }
 
     function truncateString(msg, length) {
@@ -208,7 +214,10 @@ ApplicationWindow {
                 }
                 MenuItem {
                     text: "Quit"
-                    onTriggered: Qt.quit()
+                    onTriggered: {
+                        nerdioscore.disconnect()
+                        Qt.quit()
+                    }
                 }
             }
 
@@ -412,11 +421,9 @@ ApplicationWindow {
     Connections {
         target: nerdioscore.xmppClient
         onConnected: {
-            actionButton.text = "Disconnect"
             onConnectetd();
         }
         onDisconnected: {
-            actionButton.text = "Connect"
             onDisconnectetd();
         }
     }
