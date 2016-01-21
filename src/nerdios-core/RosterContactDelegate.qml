@@ -20,7 +20,12 @@ Rectangle {
                 createChatWindow(jid);
                 getChatWindow(jid, true);
             }
-            rect.color = "blue"; // reset color
+            if (type == "") {
+                rect.color = "grey";
+            } else {
+                rect.color = "blue"; // reset color
+            }
+
             history = "";
         }
     }
