@@ -24,6 +24,9 @@ NerdiosCore::NerdiosCore(QObject *parent)
     QObject::connect(this->m_xmppClient, SIGNAL(connected()), this, SLOT(onConnected()));
     QObject::connect(this->m_xmppClient, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
     QObject::connect(this->m_xmppClient, SIGNAL(stateChanged(QXmppClient::State)), this, SLOT(onStateChanged()));
+
+    // auto-accept "friends"
+    m_xmppClient->configuration().setAutoAcceptSubscriptions(true);
 }
 
 void NerdiosCore::setJID(QString jid)
