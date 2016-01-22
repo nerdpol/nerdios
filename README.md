@@ -20,3 +20,5 @@ Log in with your username and password to start chatting.
 * notifications
 * presence information
 * single window application
+* cli for remote interaction with core
+

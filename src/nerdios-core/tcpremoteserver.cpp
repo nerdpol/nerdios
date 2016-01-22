@@ -20,6 +20,10 @@ TCPRemoteServer::TCPRemoteServer(NerdiosCore* core, QObject *parent)
     }
 }
 
+/**
+ * @brief Send contacts from a NerdiosCore instance
+ * @param stream QTextStream where the contacts are written into
+ */
 void TCPRemoteServer::sendContacts(QTextStream &stream)
 {
     foreach (const QString &bareJid, m_core->roster()) {
@@ -28,26 +32,46 @@ void TCPRemoteServer::sendContacts(QTextStream &stream)
     stream << flush;
 }
 
+/**
+ * @brief Send presence from a NerdiosCore instance
+ * @param stream QTextStream where the presence is written into
+ */
 void TCPRemoteServer::sendPresence(QTextStream &stream)
 {
     stream << m_core->status()<< endl << flush;
 }
 
+/**
+ * @brief Send priority from a NerdiosCore instance
+ * @param stream QTextStream where the priority is written into
+ */
 void TCPRemoteServer::sendPriority(QTextStream &stream)
 {
     stream << m_core->priority() << endl << flush;
 }
 
+/**
+ * @brief Send jid from a NerdiosCore instance
+ * @param stream QTextStream where the jid is written into
+ */
 void TCPRemoteServer::sendJID(QTextStream &stream)
 {
     stream << m_core->jid() << endl << flush;
 }
 
+/**
+ * @brief Send state from a NerdiosCore instance
+ * @param stream QTextStream where the state is written into
+ */
 void TCPRemoteServer::sendState(QTextStream &stream)
 {
     stream <<  m_core->state().toLower() << endl << flush;
 }
 
+/**
+ * @brief On new connection create a QTextStream and read the command
+ * from remote client. Send the right ansewer into the same QTextStream
+ */
 void TCPRemoteServer::newConnection()
 {
     QTcpSocket *socket = m_server->nextPendingConnection();

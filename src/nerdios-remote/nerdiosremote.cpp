@@ -11,6 +11,13 @@ NerdiosRemote::NerdiosRemote(QObject *parent)
     connect(m_timeout, SIGNAL(timeout()), this, SLOT(onTimeout()));
 }
 
+/**
+ * @brief This is the only call needed to run nerdios-remote. All required
+ * parameters are set here
+ * @param command command to execute on remote nerdios-core
+ * @param host host to connect to
+ * @param port port to connect to
+ */
 void NerdiosRemote::run(QString command, QString host, int port)
 {
     m_command = command;
@@ -24,9 +31,14 @@ void NerdiosRemote::run(QString command, QString host, int port)
     connect(m_socket, SIGNAL(connected()), this, SLOT(onSocketAvailable()));
     connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onError(QAbstractSocket::SocketError)));
     connect(m_socket, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(onStateChanged(QAbstractSocket::SocketState)));
+    // Start global timeout to catch network timeouts
     m_timeout->start(10000); // 10 sec
 }
 
+/**
+ * @brief on SocketAvailable from QTCPServer (m_socket) connect readyRead signal
+ * and send command to execute to the remote QTCPServer running on nerdios-core
+ */
 void NerdiosRemote::onSocketAvailable()
 {
     m_stream.setDevice(m_socket);
@@ -35,6 +47,10 @@ void NerdiosRemote::onSocketAvailable()
     m_stream << m_command << endl << flush;
 }
 
+/**
+ * @brief on readyRead from QTCPServer (m_socket) print answer from command
+ * send in onSocketAvailable and exit with return code 0
+ */
 void NerdiosRemote::onReadyRead()
 {
     while(true) {
@@ -55,6 +71,10 @@ void NerdiosRemote::onReadyRead()
     exit(0);
 }
 
+/**
+ * @brief on QTimer (m_timeout) timeout signal print error message to stderr
+ *  and exit with return code 1
+ */
 void NerdiosRemote::onTimeout()
 {
     m_err << "Error, timeout" << endl << flush;
@@ -62,11 +82,20 @@ void NerdiosRemote::onTimeout()
     exit(1);
 }
 
+/**
+ * @brief Print all socket state changes from QTCPClient (m_socket) if in debug mode
+ * @param socketState
+ */
 void NerdiosRemote::onStateChanged(QAbstractSocket::SocketState socketState)
 {
     qDebug() << "State changed," << socketState;
 }
 
+/**
+ * @brief Handle errors signals from QTCPClient (m_socket). Print error message to stderr
+ * and exit with return code 1
+ * @param socketError
+ */
 void NerdiosRemote::onError(QAbstractSocket::SocketError socketError)
 {
     qDebug() << "Error," << socketError;

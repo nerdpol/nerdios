@@ -7,7 +7,10 @@
     #include <QtMac>
 #endif
 
-
+/**
+ * @brief Main component of nerdios. Use this class in QML as the main interface
+ * @param parent
+ */
 NerdiosCore::NerdiosCore(QObject *parent)
     : QObject(parent)
     , m_xmppClient(new QXmppClient(this))
@@ -19,6 +22,7 @@ NerdiosCore::NerdiosCore(QObject *parent)
     qDebug() << "QSystemTrayIcon.isVisible:" << m_trayIcon->isVisible();
 
     m_xmppClient->logger()->setLoggingType(QXmppLogger::StdoutLogging);
+    // Connect some singals from qxmppClient
     QObject::connect(&this->m_xmppClient->rosterManager(), SIGNAL(rosterReceived()), this, SLOT(onRosterChanged()));
     QObject::connect(this->m_xmppClient, SIGNAL(messageReceived(QXmppMessage)), this, SLOT(onMessageReceived(QXmppMessage)));
     QObject::connect(this->m_xmppClient, SIGNAL(connected()), this, SLOT(onConnected()));

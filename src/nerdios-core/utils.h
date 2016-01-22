@@ -6,6 +6,11 @@
 #include "QXmppClient.h"
 #include "QXmppPresence.h"
 
+/**
+ * @brief Convert a QXmppPresence::Type to a human readable QString
+ * @param type
+ * @return QString
+ */
 static QString typeToString(QXmppPresence::Type type)
 {
     switch (type) {
@@ -30,6 +35,11 @@ static QString typeToString(QXmppPresence::Type type)
     }
 }
 
+/**
+ * @brief Convert a QXmppPresence::AvailableStatusType to a human readable QString
+ * @param availableStatusType
+ * @return QString
+ */
 static QString availableStatusTypeToString(QXmppPresence::AvailableStatusType availableStatusType)
 {
     switch (availableStatusType) {
@@ -50,6 +60,11 @@ static QString availableStatusTypeToString(QXmppPresence::AvailableStatusType av
     }
 }
 
+/**
+ * @brief Convert a QXmppClient::State to a human readable QString
+ * @param state
+ * @return QString
+ */
 static QString stateToString(QXmppClient::State state)
 {
     switch (state) {
@@ -64,6 +79,11 @@ static QString stateToString(QXmppClient::State state)
     }
 }
 
+/**
+ * @brief Validate a given jid with an email regex
+ * @param jid barejid to validate
+ * @return true if given jid is a valid jid else false
+ */
 static bool isValidJid(const QString jid)
 {
     QRegExp regex("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$");
