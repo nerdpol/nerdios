@@ -187,11 +187,6 @@ ApplicationWindow {
         }
     }
 
-    Action {
-        id: addContact
-        onTriggered: addContactDialog.open()
-    }
-
     menuBar: MenuBar {
             Menu {
                 title: "File"
@@ -279,7 +274,9 @@ ApplicationWindow {
                     id: contactsAddContact
                     text: "Add contact"
                     enabled: false
-                    onTriggered: addContact
+                    onTriggered: {
+                        addContactDialog.open()
+                    }
                 }
             }
         }

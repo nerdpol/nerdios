@@ -49,6 +49,7 @@ int main(int argc, char *argv[])
     qDebug() << "host:" << host;
     qDebug() << "port:" << port;
 
+    // Start NerdiosRemote with given parameters
     NerdiosRemote *remote = new NerdiosRemote();
     remote->run(args.at(0), host, port);
 
