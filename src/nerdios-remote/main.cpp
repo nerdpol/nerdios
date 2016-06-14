@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     QTextStream err(stderr);
 
     QCommandLineParser parser;
-    parser.setApplicationDescription(QCoreApplication::translate("main", "Remote cli for nerdios xmpp client. Allows you to recieve informations from\nyour running and connected nerdios instance. For more informations about\nnerdios visit https://github.com/nerdpol/nerdios"));
+    parser.setApplicationDescription(QCoreApplication::translate("main", "Remote cli for nerdios xmpp client. Allows you to receive informations from\nyour running and connected nerdios instance. For more informations about\nnerdios visit https://github.com/nerdpol/nerdios"));
     parser.addHelpOption();
     parser.addVersionOption();
 

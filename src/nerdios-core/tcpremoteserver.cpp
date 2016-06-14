@@ -103,11 +103,11 @@ void TCPRemoteServer::newConnection()
         } else if (line == "state") {
             sendState(*stream);
         } else {
-            qDebug() << "Unknown command recived: " << line;
+            qDebug() << "Unknown command received: " << line;
             *stream << "unknown_command_error" << endl << flush;
         }
     } else {
-        qDebug() << "Recived command while not connected to a XMPP server.";
+        qDebug() << "Received command while not connected to a XMPP server.";
         *stream << "not_connected_error" << endl << flush;
     }
 
